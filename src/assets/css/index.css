@@ -1,0 +1,56 @@
+@import url("https://fonts.googleapis.com/css2?family=Megrim&family=Quicksand:wght@400;500;700&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* :root {
+  --color-primary: #0e1630;
+  --color-secondary: #eb4a4a;
+  --color-background: #0e1630; page background
+  --color-surface: #171f38; cards background
+  --color-error: #eb4a4a; form field error color
+  --color-text-default: #ffffff; title color
+  --color-text-primary: #eb4a4a; section title, button, active
+  --color-text-secondary: #808dad; contents
+  --color-text-hint: #808dad; labels
+  --color-text-disabled: yellow; not decided yet
+  --color-icon-primary: #808dad; default icon color
+  --color-icon-secondary: #eb4a4a; hover, highlight icon color
+} */
+:root {
+	--color-primary: #ffffff;
+	--color-secondary: #808dad;
+	--color-accent: #eb4a4a;
+	--color-background: #0e1630; /* page background */
+	--color-surface: #171f38;
+	--color-error: #eb4a4a;
+	--color-tag: #2c3246;
+	--color-accent-alpha: #eb4a4a2b;
+}
+
+@layer components {
+	.c-highlight {
+		@apply inline-flex items-center font-bold text-accent;
+	}
+	.c-highlight::before {
+		@apply items-start mr-2 rounded bg-accent w-7;
+		height: 2px;
+		content: "";
+	}
+	.c-button-primary {
+		@apply px-4 py-2 font-medium border rounded-lg border-accent text-accent bg-surface;
+	}
+	.c-button-secondary {
+	}
+	.c-overall-p {
+		@apply px-8 md:px-24 lg:px-32 xl:px-48;
+	}
+	.c-active {
+		@apply relative inline-flex items-center text-accent;
+	}
+	.c-active::before {
+		@apply absolute bottom-0 left-0 items-start w-6 rounded bg-accent;
+		height: 2px;
+		content: "";
+	}
+}
