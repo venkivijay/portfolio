@@ -2,30 +2,40 @@
 	<div class="w-full py-10">
 		<ul class="flex justify-around">
 			<li>
-				<a href="#"><img class="w-8 h-8" :src="githubIcon" alt="Link to" /></a>
+				<a href="#">
+					<Icon primaryIcon="github" />
+				</a>
 			</li>
 			<li>
-				<a href="#"><img class="w-8 h-8" :src="linkedinIcon" alt="Link to" /></a>
+				<a href="#">
+					<Icon primaryIcon="linkedin" />
+				</a>
 			</li>
 			<li>
-				<a href="#"><img class="w-8 h-8" :src="twitterIcon" alt="Link to" /></a>
+				<a href="#">
+					<Icon primaryIcon="twitter" />
+				</a>
 			</li>
 			<li>
-				<a href="#"><img class="w-8 h-8" :src="whatsappIcon" alt="Link to" /></a>
+				<a href="#">
+					<Icon primaryIcon="whatsapp" />
+				</a>
 			</li>
 			<li>
-				<a href="#"><img class="w-8 h-8" :src="rssIcon" alt="Link to" /></a>
+				<a href="#">
+					<Icon primaryIcon="rss" />
+				</a>
 			</li>
 		</ul>
 	</div>
 </template>
 
 <script setup>
-	import githubIcon from "assets/icons/github.svg"
-	import linkedinIcon from "assets/icons/linkedin.svg"
-	import twitterIcon from "assets/icons/twitter.svg"
-	import whatsappIcon from "assets/icons/whatsapp.svg"
-	import rssIcon from "assets/icons/rss.svg"
+	import Icon from "components/Icon.vue"
 </script>
 
-<style scoped></style>
+<style scoped>
+	.icon {
+		@apply w-5 h-5;
+	}
+</style>

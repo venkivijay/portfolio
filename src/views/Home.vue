@@ -13,7 +13,7 @@
 				<img class="rounded profile-image" :src="profileImg" alt="A picture of Venki" />
 				<div class="absolute top-0 right-0 w-16 h-16 dots text-accent"></div>
 				<div class="absolute bottom-0 right-0 flex items-center p-2 glass">
-					<img :src="manStarIcon" alt="Icon for experience" class="p-1 fill-current text-accent" />
+					<Icon primaryIcon="man-star" class="w-10 h-10 p-1 text-accent" />
 					<div class="leading-none">
 						<p class="text-xs font-bold text-secondary">Experience</p>
 						<p class="text-sm font-bold">
@@ -27,11 +27,7 @@
 				<button class="c-button-primary">Hire Me</button>
 				<a href="#" class="ml-3 font-medium align-baseline text-accent">
 					Download Resume
-					<img
-						:src="downloadIcon"
-						alt="Download my resume"
-						class="inline w-5 h-5 fill-current text-accent"
-					/>
+					<Icon primaryIcon="download" class="inline w-5 h-5 text-accent" />
 				</a>
 			</div>
 		</article>
@@ -40,9 +36,7 @@
 
 <script setup>
 	import profileImg from "assets/images/me.png"
-	import manStarIcon from "assets/icons/man-star.svg"
-	import downloadIcon from "assets/icons/download.svg"
-	// import Icon from "components/Icon.vue"
+	import Icon from "components/Icon.vue"
 </script>
 
 <style scoped>

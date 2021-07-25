@@ -17,7 +17,7 @@
 			<img :src="heartIcon" alt="Heart Icon" class="w-6 h-6" />
 			<p class="pl-1 font-medium">Created by Venki Vijay</p>
 		</div>
-		<p class="py-4 text-center text-secondary">© All rights reserved</p>
+		<p class="py-4 text-center text-secondary">&copy; All rights reserved</p>
 	</footer>
 </template>
 

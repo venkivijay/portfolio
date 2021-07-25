@@ -1,20 +1,21 @@
 <template>
-	<!-- <router-view></router-view> -->
-	<Header />
+	<TheIconSprite />
+	<TheHeader />
 	<Home />
+	<Skills />
 	<Works />
 	<Contact />
-	<Footer />
-	<!-- <Dots :count="20" /> -->
+	<TheFooter />
 </template>
 
 <script setup>
+	import TheHeader from "components/TheHeader.vue"
 	import Home from "views/Home.vue"
-	import Header from "components/Header.vue"
+	import Skills from "views/Skills.vue"
 	import Works from "views/Works.vue"
 	import Contact from "views/Contact.vue"
-	import Footer from "components/Footer.vue"
-	import Dots from "components/LittleThings/Dots.vue"
+	import TheFooter from "components/TheFooter.vue"
+	import TheIconSprite from "./components/TheIconSprite.vue"
 </script>
 
 <style>
