@@ -4,21 +4,30 @@
 		:class="isMenuOpen ? 'is-open' : ''"
 	>
 		<ul class="inline-flex flex-col items-end justify-center h-full">
-			<li class="c-active"><a href="#">Home</a></li>
-			<li><a href="#">About</a></li>
-			<li><a href="#">Skills</a></li>
-			<li><a href="#">Portfolio</a></li>
-			<li><a href="#">Contact</a></li>
+			<li><CustomRouterLink to="#home" @click="handleMenuItemClick">Home</CustomRouterLink></li>
+			<li><CustomRouterLink to="#about" @click="handleMenuItemClick">About</CustomRouterLink></li>
+			<li><CustomRouterLink to="#skills" @click="handleMenuItemClick">Skills</CustomRouterLink></li>
+			<li><CustomRouterLink to="#works" @click="handleMenuItemClick">Portfolio</CustomRouterLink></li>
+			<li><CustomRouterLink to="#contact" @click="handleMenuItemClick">Contact</CustomRouterLink></li>
 		</ul>
 	</nav>
 </template>
 
 <script>
+	import CustomRouterLink from "components/CustomRouterLink.vue"
 	export default {
+		components: {
+			CustomRouterLink,
+		},
 		props: {
 			isMenuOpen: {
 				required: true,
 				type: Boolean,
+			},
+		},
+		methods: {
+			handleMenuItemClick() {
+				this.$emit("closeMenu")
 			},
 		},
 	}
@@ -65,7 +74,7 @@
 	}
 
 	nav a {
-		@apply opacity-0 -translate-y-3 block px-3 py-0 text-4xl font-bold text-primary;
+		@apply opacity-0 -translate-y-3 block py-0 font-bold text-primary;
 		text-decoration: none;
 	}
 

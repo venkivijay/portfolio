@@ -2,16 +2,17 @@
 
 ## Techs
 
- - Vite
- - Vue3
- - TailwindCss
+-   Vite
+-   Vue3
+-   TailwindCss
 
 **Create Layout**
-- [ ] 6 grid system
-  - Grids borders should be highlighed
-  - Content goes in 4 grid
-  - Social Bar goes in right most grid
-- [ ] Floating right side social bar
+
+-   [ ] 6 grid system
+    -   Grids borders should be highlighed
+    -   Content goes in 4 grid
+    -   Social Bar goes in right most grid
+-   [ ] Floating right side social bar
 
 **Create Home Page**
 

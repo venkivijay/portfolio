@@ -18,8 +18,8 @@
   --color-icon-secondary: #eb4a4a; hover, highlight icon color
 } */
 :root {
-	--color-primary: #ffffff;
-	--color-secondary: #808dad;
+	--color-primary: #808dad;
+	--color-secondary: #ffffff;
 	--color-accent: #eb4a4a;
 	--color-background: #0e1630; /* page background */
 	--color-surface: #171f38;
@@ -38,19 +38,16 @@
 		content: "";
 	}
 	.c-button-primary {
-		@apply px-4 py-2 font-medium border rounded-lg border-accent text-accent bg-surface;
+		@apply px-4 py-2 border rounded-lg border-accent text-accent bg-surface;
 	}
-	.c-button-secondary {
-	}
-	.c-overall-p {
-		@apply px-8 md:px-24 lg:px-32 xl:px-48;
-	}
-	.c-active {
-		@apply relative inline-flex items-center text-accent;
-	}
-	.c-active::before {
-		@apply absolute bottom-0 left-0 items-start w-6 rounded bg-accent;
-		height: 2px;
-		content: "";
-	}
+}
+
+/* Global styles */
+.active {
+	@apply relative inline-flex items-center text-accent !important;
+}
+.active::before {
+	@apply absolute bottom-0 left-0 items-start w-6 rounded bg-accent;
+	height: 2px;
+	content: "";
 }

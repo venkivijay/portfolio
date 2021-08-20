@@ -1,0 +1,11 @@
+# Artifacts:
+dist
+node_modules
+
+#Others
+reference
+
+#images
+*.svg
+*.png
+*.ico

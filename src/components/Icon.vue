@@ -1,5 +1,5 @@
 <template>
-	<svg class="fill-current stroke-current icon text-secondary">
+	<svg class="fill-current stroke-current">
 		<use v-bind:xlink:href="displayIcon" />
 	</svg>
 </template>

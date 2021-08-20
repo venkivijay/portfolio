@@ -1,36 +1,55 @@
 <template>
 	<header
-		class="sticky top-0 z-50 flex items-center justify-between py-4 bg-opacity-50 border-b c-overall-p backdrop-filter backdrop-blur border-secondary"
+		class="
+			sticky
+			top-0
+			z-50
+			flex
+			items-center
+			justify-between
+			px-8
+			py-4
+			mb-6
+			bg-opacity-50
+			border-b
+			md:px-24
+			lg:px-32
+			xl:px-48
+			backdrop-filter backdrop-blur
+			border-primary
+		"
 	>
-		<p class="text-4xl leading-none font-brand text-accent">VV</p>
+		<!-- TODO: Replace below with logo -->
+		<p class="leading-none text-h1 font-brand text-accent">VV</p>
 		<nav class="hidden md:block">
-			<ul class="flex items-center font-medium text-secondary">
-				<li class="c-active"><a href="#">Home</a></li>
-				<li><a href="#">About</a></li>
-				<li><a href="#">Skills</a></li>
-				<li><a href="#">Portfolio</a></li>
-				<li><a href="#">Contact</a></li>
-				<li>|</li>
-				<li>
-					<a class="whitespace-nowrap text-accent" href="#">+91-6369888030</a>
+			<ul class="flex items-center">
+				<li><CustomRouterLink to="#home">Home</CustomRouterLink></li>
+				<li><CustomRouterLink to="#about">About</CustomRouterLink></li>
+				<li><CustomRouterLink to="#skills">Skills</CustomRouterLink></li>
+				<li><CustomRouterLink to="#works">Portfolio</CustomRouterLink></li>
+				<li><CustomRouterLink to="#contact">Contact</CustomRouterLink></li>
+				<li class="hidden lg:static">|</li>
+				<li class="hidden lg:static">
+					<p class="whitespace-nowrap text-accent">+91-6369888030</p>
 				</li>
 			</ul>
 		</nav>
 		<!-- Hamburger Menu Button -->
 		<button
-			class="absolute pt-5 cursor-pointer top-4 right-4 focus:outline-none"
+			class="absolute pt-5 cursor-pointer top-4 right-4 focus:outline-none md:hidden"
 			:class="isMenuOpen ? 'is-open' : ''"
 			@click="isMenuOpen = !isMenuOpen"
 		>
 			<span class="relative block h-1 mx-0 my-auto skew-y-6 w-7 bg-accent burger"></span>
 		</button>
 	</header>
-	<TheMobileMenu :isMenuOpen="isMenuOpen" />
+	<TheMobileMenu :isMenuOpen="isMenuOpen" @closeMenu="isMenuOpen = !isMenuOpen" />
 </template>
 
 <script setup>
 	import Icon from "components/Icon.vue"
 	import TheMobileMenu from "components/TheMobileMenu.vue"
+	import CustomRouterLink from "components/CustomRouterLink.vue"
 </script>
 
 <script>

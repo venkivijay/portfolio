@@ -1,59 +1,34 @@
 <template>
-	<section class="flex flex-wrap pt-20 c-overall-p">
-		<header class="flex flex-col">
-			<p class="py-2 c-highlight">Contact Me</p>
-			<h1 class="py-2 text-xl font-medium">Let's work together</h1>
-			<p class="py-2 font-medium text-secondary">
-				Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquid, nemo.
+	<section class="grid my-14 md:grid-cols-2" id="contact">
+		<div class="md:self-end md:pr-8 lg:pr-16">
+			<h2 class="mb-1 c-highlight text-h2">
+				<router-link class="header-anchor" :to="{ hash: '#contact' }">Contact</router-link>
+			</h2>
+			<h4 class="py-2 text-h4 text-secondary">Let's work together</h4>
+			<p class="py-2">
+				I am open for hire to work on your awesome idea. I also like to contribute to open-source projects. Feel
+				free to contact me if you want to talk about your open-source projects.
 			</p>
-		</header>
-		<form action="#" class="w-full">
-			<label>
-				<input type="text" name="user-name" id="username" placeholder="Your Name" />
-			</label>
-			<label>
-				<input type="email" name="user-mail" id="usermail" placeholder="Email Address" />
-			</label>
-			<label>
-				<input type="text" name="mail-subject" id="mailsub" placeholder="Subject" />
-			</label>
-			<label>
-				<textarea type="text" name="mail-message" rows="5" id="mailmes" placeholder="Message" />
-			</label>
-			<button type="submit" class="my-4 c-button-primary">Send</button>
-		</form>
-		<div id="socials">
+		</div>
+		<ContactForm />
+		<div id="contacts" class="my-4 md:self-start md:pr-8 lg:pr-16">
 			<div id="location" class="flex items-center py-2">
-				<Icon primaryIcon="location" class="p-1 rounded-lg bg-accent-alpha text-accent" />
-				<p class="pl-4 font-medium text-secondary">Salem - Chennai, TamilNadu, India</p>
+				<Icon primaryIcon="location" class="w-6 h-6 p-1 rounded-lg bg-accent-alpha text-accent" />
+				<p class="pl-4">Salem - Chennai, TamilNadu, India</p>
 			</div>
 			<div id="mail" class="flex items-center py-2">
-				<Icon primaryIcon="mail" class="p-1 rounded-lg bg-accent-alpha text-accent" />
-				<p class="pl-4 font-medium text-secondary">me@venkivijay.com</p>
+				<Icon primaryIcon="mail" class="w-6 h-6 p-1 rounded-lg bg-accent-alpha text-accent" />
+				<p class="pl-4">me@venkivijay.com</p>
 			</div>
 			<div id="phone" class="flex items-center py-2">
-				<Icon primaryIcon="phone" class="p-1 rounded-lg bg-accent-alpha text-accent" />
-				<p class="pl-4 font-medium text-secondary">+91 6369888030</p>
+				<Icon primaryIcon="phone" class="w-6 h-6 p-1 rounded-lg bg-accent-alpha text-accent" />
+				<p class="pl-4">+91 6369888030</p>
 			</div>
 		</div>
-		<SocialBar />
 	</section>
 </template>
 
 <script setup>
 	import Icon from "components/Icon.vue"
-	import SocialBar from "components/SocialBar.vue"
+	import ContactForm from "components/ContactForm.vue"
 </script>
-
-<style scoped>
-	header {
-		flex-basis: 100%;
-	}
-	input,
-	textarea {
-		@apply block w-full p-3 my-4 font-medium rounded-md bg-surface text-secondary focus:ring-0 placeholder-secondary;
-	}
-	.icon {
-		@apply w-6 h-6;
-	}
-</style>

@@ -1,8 +1,8 @@
 <template>
-	<section class="flex flex-wrap justify-around pt-20 c-overall-p">
-		<header class="flex flex-col">
-			<p class="py-2 c-highlight">My Skills</p>
-		</header>
+	<section id="skills" class="flex flex-col justify-around my-14">
+		<h2 class="py-2 mb-1 c-highlight text-h2">
+			<router-link class="header-anchor" :to="{ hash: '#skills' }">Skills</router-link>
+		</h2>
 		<p class="py-2">
 			Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptate, magnam obcaecati minus, itaque
 			molestias, ipsa sequi aperiam praesentium doloremque incidunt debitis? Voluptatibus exercitationem
@@ -14,9 +14,3 @@
 </template>
 
 <script setup></script>
-
-<style scoped>
-	header {
-		flex-basis: 100%;
-	}
-</style>

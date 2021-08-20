@@ -1,29 +1,9 @@
 <template>
-	<div class="w-full py-10">
+	<div class="w-full mx-auto mb-4 md:max-w-lg">
 		<ul class="flex justify-around">
-			<li>
-				<a href="#">
-					<Icon primaryIcon="github" />
-				</a>
-			</li>
-			<li>
-				<a href="#">
-					<Icon primaryIcon="linkedin" />
-				</a>
-			</li>
-			<li>
-				<a href="#">
-					<Icon primaryIcon="twitter" />
-				</a>
-			</li>
-			<li>
-				<a href="#">
-					<Icon primaryIcon="whatsapp" />
-				</a>
-			</li>
-			<li>
-				<a href="#">
-					<Icon primaryIcon="rss" />
+			<li v-for="social in socials" :key="social.primaryIcon">
+				<a :href="social.url ? social.url : '#'">
+					<Icon :primaryIcon="social.primaryIcon" class="w-5 h-5" />
 				</a>
 			</li>
 		</ul>
@@ -32,10 +12,5 @@
 
 <script setup>
 	import Icon from "components/Icon.vue"
+	import { socials } from "/src/staticData.js"
 </script>
-
-<style scoped>
-	.icon {
-		@apply w-5 h-5;
-	}
-</style>

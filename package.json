@@ -4,11 +4,15 @@
 		"dev": "vite --host",
 		"build": "vite build",
 		"serve": "vite preview",
-		"pretty": "prettier --write \"./**/*.{js,vue}\""
+		"pretty-yell": "prettier --check .",
+		"pretty": "prettier --write .",
+		"lint-yell": "eslint \"./**/*.{js,vue}\"",
+		"lint": "eslint \"./**/*.{js,vue}\" --fix"
 	},
 	"dependencies": {
 		"vue": "^3.0.5",
-		"vue-router": "^4.0.8"
+		"vue-router": "^4.0.8",
+		"vuex": "^4.0.2"
 	},
 	"devDependencies": {
 		"@vitejs/plugin-vue": "^1.2.3",

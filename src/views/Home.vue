@@ -1,33 +1,33 @@
 <template>
-	<section class="py-4 c-overall-p">
-		<article class="flex flex-col">
-			<div id="intro">
-				<p class="py-2 text-lg c-highlight">Hello</p>
-				<h1 class="py-2 text-6xl font-bold whitespace-nowrap">
+	<section id="home" class="my-14">
+		<article class="grid md:grid-cols-2">
+			<div id="intro" class="flex flex-col items-center md:items-stretch md:self-end">
+				<h2 class="self-start mb-1 md:self-auto c-highlight text-h2">
+					<router-link class="header-anchor" :to="{ hash: '#home' }">Home</router-link>
+				</h2>
+				<h1 class="mb-4 font-bold text-h1 md:whitespace-nowrap text-secondary">
 					I'M VENKI
-					<span class="block">VIJAY</span>
+					<span class="md:block">VIJAY</span>
 				</h1>
-				<p class="py-2 text-lg font-medium text-secondary">Full Stack Developer</p>
+				<p class="mb-4">Full Stack Developer</p>
 			</div>
-			<div class="relative self-center p-8">
+			<div id="picture" class="relative p-8 mb-4 justify-self-center profile md:justify-self-end">
+				<!-- TODO: Decide on proper picture resolution. Recommended: 300*300 -->
 				<img class="rounded profile-image" :src="profileImg" alt="A picture of Venki" />
-				<div class="absolute top-0 right-0 w-16 h-16 dots text-accent"></div>
-				<div class="absolute bottom-0 right-0 flex items-center p-2 glass">
+				<div id="dots" class="absolute top-0 right-0 w-16 h-16 dots text-accent"></div>
+				<div id="experience" class="absolute bottom-0 right-0 flex items-center p-2 glass">
 					<Icon primaryIcon="man-star" class="w-10 h-10 p-1 text-accent" />
-					<div class="leading-none">
-						<p class="text-xs font-bold text-secondary">Experience</p>
-						<p class="text-sm font-bold">
-							<span class="text-2xl">4</span>
-							Years
-						</p>
+					<div>
+						<p class="font-bold">Experience</p>
+						<p class="font-bold">4 Years</p>
 					</div>
 				</div>
 			</div>
-			<div id="cta" class="self-center pt-4 align-middle whitespace-nowrap">
+			<div id="cta" class="justify-self-center md:justify-self-auto md:self-start whitespace-nowrap">
 				<button class="c-button-primary">Hire Me</button>
-				<a href="#" class="ml-3 font-medium align-baseline text-accent">
-					Download Resume
-					<Icon primaryIcon="download" class="inline w-5 h-5 text-accent" />
+				<a href="#" class="ml-3 align-baseline text-accent">
+					Get Resume
+					<Icon primaryIcon="download" class="inline w-5 h-5 align-text-bottom text-accent" />
 				</a>
 			</div>
 		</article>
@@ -40,9 +40,16 @@
 </script>
 
 <style scoped>
+	@media (min-width: 768px) {
+		.profile {
+			grid-row: 1/3;
+			grid-column: 2;
+		}
+	}
 	.profile-image {
 		border-top-left-radius: 60px;
 		animation: ripple 2s linear infinite;
+		/* max-height: 300px; */
 	}
 	.dots {
 		opacity: 50%;
