@@ -8,8 +8,7 @@
 			items-center
 			justify-between
 			px-8
-			py-4
-			mb-6
+			py-2
 			bg-opacity-50
 			border-b
 			md:px-24

@@ -36,7 +36,6 @@ const router = createRouter({
 			return {
 				el: to.hash,
 				top: document.querySelector("header").offsetHeight - 2,
-				behavior: "smooth",
 			}
 		}
 		return { x: 0, y: 0 }

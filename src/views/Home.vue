@@ -1,5 +1,5 @@
 <template>
-	<section id="home" class="my-14">
+	<section id="home" class="py-14">
 		<article class="grid md:grid-cols-2">
 			<div id="intro" class="flex flex-col items-center md:items-stretch md:self-end">
 				<h2 class="self-start mb-1 md:self-auto c-highlight text-h2">

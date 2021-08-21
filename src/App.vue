@@ -27,6 +27,9 @@
 	export default {
 		mounted() {
 			window.addEventListener("scroll", this.onScroll)
+			if (this.$route.hash !== document.querySelector(".header-anchor").hash) {
+				setTimeout(() => this.replaceHash(document.querySelector(".header-anchor")), 1)
+			}
 		},
 		methods: {
 			onScroll() {
@@ -40,7 +43,7 @@
 					headerOffset
 				const scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight)
 
-				const bottomY = window.innerHeight + scrollTop
+				const bottomY = window.innerHeight + (scrollTop - headerOffset)
 
 				for (let i = 0; i < anchors.length; i++) {
 					const anchor = anchors[i]
@@ -58,13 +61,16 @@
 						if (bottomY === scrollHeight) {
 							activeAnchor = anchors[anchors.length - 1]
 						}
-						this.$store.commit("setDisableScrollBehavior", true)
-						this.$router.replace(decodeURIComponent(activeAnchor.hash)).then(() => {
-							this.$nextTick(() => this.$store.commit("setDisableScrollBehavior", false))
-						})
+						this.replaceHash(activeAnchor)
 						return
 					}
 				}
+			},
+			replaceHash(activeAnchor) {
+				this.$store.commit("setDisableScrollBehavior", true)
+				this.$router.replace(decodeURIComponent(activeAnchor.hash)).then(() => {
+					this.$store.commit("setDisableScrollBehavior", false)
+				})
 			},
 		},
 		beforeUnmount() {
