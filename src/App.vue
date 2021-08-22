@@ -69,7 +69,7 @@
 			replaceHash(activeAnchor) {
 				this.$store.commit("setDisableScrollBehavior", true)
 				this.$router.replace(decodeURIComponent(activeAnchor.hash)).then(() => {
-					this.$store.commit("setDisableScrollBehavior", false)
+					this.$nextTick(() => this.$store.commit("setDisableScrollBehavior", false))
 				})
 			},
 		},
