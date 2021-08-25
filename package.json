@@ -10,11 +10,13 @@
 		"lint": "eslint \"./**/*.{js,vue}\" --fix"
 	},
 	"dependencies": {
+		"three": "^0.130.0",
 		"vue": "^3.0.5",
 		"vue-router": "^4.0.8",
 		"vuex": "^4.0.2"
 	},
 	"devDependencies": {
+		"dat.gui": "^0.7.7",
 		"@vitejs/plugin-vue": "^1.2.3",
 		"@vue/compiler-sfc": "^3.0.5",
 		"autoprefixer": "^10.2.6",
