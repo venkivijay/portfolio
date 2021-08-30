@@ -7,7 +7,8 @@
 		"pretty-yell": "prettier --check .",
 		"pretty": "prettier --write .",
 		"lint-yell": "eslint \"./**/*.{js,vue}\"",
-		"lint": "eslint \"./**/*.{js,vue}\" --fix"
+		"lint": "eslint \"./**/*.{js,vue}\" --fix",
+		"structure": "tree -L 2  -I 'reference|node_modules|icons'"
 	},
 	"dependencies": {
 		"debounce": "^1.2.1",
