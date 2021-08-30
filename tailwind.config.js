@@ -21,7 +21,7 @@ module.exports = {
 		},
 		fontSize: {
 			small: ["0.7rem", "1"],
-			base: ["clamp(14px,calc(1rem + .25vw),26px)", "1.7"],
+			base: ["clamp(16px,calc(1rem + .25vw),26px)", "1.7"],
 			h1: ["clamp(2.5rem,calc(1rem + 3.5vw),5rem)", "1.1"],
 			h2: ["clamp(1.2rem,calc(1rem + 0.5vw),2rem)", "1.1"],
 			h3: ["1.5rem", "1.1"],

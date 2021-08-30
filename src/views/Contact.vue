@@ -1,5 +1,5 @@
 <template>
-	<section class="grid my-14 md:grid-cols-2" id="contact">
+	<section id="contact" class="grid md:grid-cols-2">
 		<div class="md:self-end md:pr-8 lg:pr-16">
 			<h2 class="mb-1 c-highlight text-h2">
 				<router-link class="header-anchor" :to="{ hash: '#contact' }">Contact</router-link>

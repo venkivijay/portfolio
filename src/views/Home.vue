@@ -1,9 +1,9 @@
 <template>
-	<section id="home" class="py-14">
+	<section id="home">
 		<article class="grid md:grid-cols-2">
 			<div id="intro" class="flex flex-col items-center md:items-stretch md:self-end">
 				<h2 class="self-start mb-1 md:self-auto c-highlight text-h2">
-					<router-link class="header-anchor" :to="{ hash: '#home' }">Home</router-link>
+					<router-link class="header-anchor" :to="{ hash: '#home' }">Hello</router-link>
 				</h2>
 				<h1 class="mb-4 font-bold text-h1 md:whitespace-nowrap text-secondary">
 					I'M VENKI

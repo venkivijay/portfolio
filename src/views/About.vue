@@ -1,5 +1,5 @@
 <template>
-	<section id="about" class="flex flex-col justify-around my-14">
+	<section id="about" class="flex flex-col justify-around">
 		<h2 class="py-2 mb-1 c-highlight text-h2">
 			<router-link class="header-anchor" :to="{ hash: '#about' }">About</router-link>
 		</h2>

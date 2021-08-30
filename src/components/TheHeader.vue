@@ -18,8 +18,9 @@
 			border-primary
 		"
 	>
-		<!-- TODO: Replace below with logo -->
-		<p class="leading-none text-h1 font-brand text-accent">VV</p>
+		<svg class="w-12 h-12 fill-current stroke-current stroke-2 text-accent">
+			<use xlink:href="#logo" />
+		</svg>
 		<nav class="hidden md:block">
 			<ul class="flex items-center">
 				<li><CustomRouterLink to="#home">Home</CustomRouterLink></li>
@@ -49,6 +50,7 @@
 	import Icon from "components/Icon.vue"
 	import TheMobileMenu from "components/TheMobileMenu.vue"
 	import CustomRouterLink from "components/CustomRouterLink.vue"
+	import logoImg from "assets/images/logo.png"
 </script>
 
 <script>
@@ -69,6 +71,7 @@
 <style scoped>
 	header {
 		border-style: groove;
+		max-height: var(--nav-height);
 	}
 	ul > * {
 		@apply flex-1 px-4;

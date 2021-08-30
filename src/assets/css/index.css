@@ -26,6 +26,8 @@
 	--color-error: #eb4a4a;
 	--color-tag: #2c3246;
 	--color-accent-alpha: #eb4a4a2b;
+
+	--nav-height: 3rem;
 }
 
 @layer components {
