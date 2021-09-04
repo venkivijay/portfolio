@@ -29,7 +29,6 @@
 	const router = useRouter()
 
 	const setActiveHash = () => {
-		console.log("scrooool")
 		// get header height
 		const offset = document.querySelector("header").offsetHeight
 

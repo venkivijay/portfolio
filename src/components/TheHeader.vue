@@ -18,7 +18,7 @@
 			border-primary
 		"
 	>
-		<RouterLink to="#home">
+		<RouterLink to="#home" aria-label="Logo">
 			<svg class="w-12 h-12 fill-current stroke-current stroke-2 text-accent">
 				<use xlink:href="#logo" />
 			</svg>
@@ -41,6 +41,7 @@
 			class="flex flex-col justify-between cursor-pointer wrapper-menu md:hidden"
 			:class="isMenuOpen ? 'open' : ''"
 			@click="isMenuOpen = !isMenuOpen"
+			aria-label="Menu"
 		>
 			<div class="line-menu half start"></div>
 			<div class="line-menu"></div>

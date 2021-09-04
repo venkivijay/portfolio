@@ -4,7 +4,7 @@
 			<router-link class="header-anchor" :to="{ hash: '#works' }">Works</router-link>
 		</h2>
 		<div class="flex flex-col">
-			<h4 class="py-2 text-h4 text-secondary">Some of my projects</h4>
+			<h3 class="py-2 text-h4 text-secondary">Some of my projects</h3>
 		</div>
 		<div id="projects" class="flex flex-wrap justify-center">
 			<ProjectCard v-for="project in projects" :key="project.name" :project="project" />

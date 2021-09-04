@@ -4,7 +4,7 @@
 			<h2 class="mb-1 c-highlight text-h2">
 				<router-link class="header-anchor" :to="{ hash: '#contact' }">Contact</router-link>
 			</h2>
-			<h4 class="py-2 text-h4 text-secondary">Let's work together</h4>
+			<h3 class="py-2 text-h4 text-secondary">Let's work together</h3>
 			<p class="py-2">
 				I am open for hire to work on your awesome idea. I also like to contribute to open-source projects. Feel
 				free to contact me if you want to talk about your open-source projects.

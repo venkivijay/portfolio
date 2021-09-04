@@ -1,6 +1,6 @@
 <template>
 	<article class="flex flex-col p-4 m-2 rounded-lg bg-surface">
-		<h3 class="py-2 font-bold text-accent">{{ project.name }}</h3>
+		<h4 class="py-2 font-bold text-accent">{{ project.name }}</h4>
 		<p class="py-2">{{ project.description }}</p>
 		<ul class="flex py-2">
 			<li class="p-2 m-1 rounded-lg bg-tag text-small" v-for="tag in project.tags" :key="tag">

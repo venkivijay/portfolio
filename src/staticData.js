@@ -22,24 +22,29 @@ const projects = [
 
 const socials = [
 	{
+		name: "GitHub",
 		primaryIcon: "github",
 		url: "https://github.com/venkivijay",
 	},
 	{
+		name: "LinkedIn",
 		primaryIcon: "linkedin",
 		url: "https://www.linkedin.com/in/venkivijay/",
 	},
 	{
+		name: "Twitter",
 		primaryIcon: "twitter",
 		url: "https://twitter.com/venkivijay_",
 	},
 	// TODO: Add whatsapp url
 	{
+		name: "WhatsApp",
 		primaryIcon: "whatsapp",
 		url: "",
 	},
 	// TODO: Add rss url
 	{
+		name: "RSS",
 		primaryIcon: "rss",
 		url: "",
 	},

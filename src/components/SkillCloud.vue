@@ -73,6 +73,7 @@
 					const img = document.createElement("img")
 					img.className = "icon"
 					img.src = "https://unpkg.com/simple-icons@v5/icons/" + this.skills[i].slug + ".svg"
+					img.alt = this.skills[i].name
 					img.draggable = false
 
 					// color-primary - #808dad
