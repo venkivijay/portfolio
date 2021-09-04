@@ -18,39 +18,41 @@
 			border-primary
 		"
 	>
-		<svg class="w-12 h-12 fill-current stroke-current stroke-2 text-accent">
-			<use xlink:href="#logo" />
-		</svg>
+		<RouterLink to="#home">
+			<svg class="w-12 h-12 fill-current stroke-current stroke-2 text-accent">
+				<use xlink:href="#logo" />
+			</svg>
+		</RouterLink>
 		<nav class="hidden md:block">
 			<ul class="flex items-center">
-				<li><CustomRouterLink to="#home">Home</CustomRouterLink></li>
-				<li><CustomRouterLink to="#about">About</CustomRouterLink></li>
-				<li><CustomRouterLink to="#skills">Skills</CustomRouterLink></li>
-				<li><CustomRouterLink to="#works">Portfolio</CustomRouterLink></li>
-				<li><CustomRouterLink to="#contact">Contact</CustomRouterLink></li>
-				<li class="hidden lg:static">|</li>
-				<li class="hidden lg:static">
+				<li class="flex-1 px-4"><CustomRouterLink to="#home">Home</CustomRouterLink></li>
+				<li class="flex-1 px-4"><CustomRouterLink to="#about">About</CustomRouterLink></li>
+				<li class="flex-1 px-4"><CustomRouterLink to="#skills">Skills</CustomRouterLink></li>
+				<li class="flex-1 px-4"><CustomRouterLink to="#works">Portfolio</CustomRouterLink></li>
+				<li class="flex-1 px-4"><CustomRouterLink to="#contact">Contact</CustomRouterLink></li>
+				<li class="flex-1 hidden px-4 lg:static">|</li>
+				<li class="flex-1 hidden px-4 lg:static">
 					<p class="whitespace-nowrap text-accent">+91-6369888030</p>
 				</li>
 			</ul>
 		</nav>
 		<!-- Hamburger Menu Button -->
 		<button
-			class="absolute pt-5 cursor-pointer top-4 right-4 focus:outline-none md:hidden"
-			:class="isMenuOpen ? 'is-open' : ''"
+			class="flex flex-col justify-between cursor-pointer wrapper-menu md:hidden"
+			:class="isMenuOpen ? 'open' : ''"
 			@click="isMenuOpen = !isMenuOpen"
 		>
-			<span class="relative block h-1 mx-0 my-auto skew-y-6 w-7 bg-accent burger"></span>
+			<div class="line-menu half start"></div>
+			<div class="line-menu"></div>
+			<div class="self-end line-menu half end"></div>
 		</button>
 	</header>
 	<TheMobileMenu :isMenuOpen="isMenuOpen" @closeMenu="isMenuOpen = !isMenuOpen" />
 </template>
 
 <script setup>
-	import Icon from "components/Icon.vue"
 	import TheMobileMenu from "components/TheMobileMenu.vue"
 	import CustomRouterLink from "components/CustomRouterLink.vue"
-	import logoImg from "assets/images/logo.png"
 </script>
 
 <script>
@@ -73,36 +75,42 @@
 		border-style: groove;
 		max-height: var(--nav-height);
 	}
-	ul > * {
-		@apply flex-1 px-4;
-	}
-	.burger {
-		transform: skew(5deg);
-		transition: all 0.275s;
-	}
-	.burger:after,
-	.burger:before {
-		content: "";
-		transition: all 0.275s;
-		@apply h-full block bg-accent;
-	}
-	.burger:after {
-		transform: translateY(-12px) translateX(-2px) skew(-20deg);
+	.wrapper-menu {
+		width: 30px;
+		height: 20px;
+		transition: transform 330ms ease-out;
 	}
 
-	.burger:before {
-		transform: translateY(-16px) skew(-10deg);
-	}
-	.is-open .burger {
-		transform: translateY(-8px) rotate(-45deg);
+	.wrapper-menu.open {
+		transform: rotate(-45deg);
 	}
 
-	.is-open .burger:before {
-		transform: translateY(0px) skew(-10deg) rotate(75deg);
+	.line-menu {
+		background-color: var(--color-accent);
+		border-radius: 5px;
+		width: 100%;
+		height: 3px;
 	}
 
-	.is-open .burger:after {
-		transform: translateY(-12px) translateX(10px) skew(-20deg);
-		opacity: 0;
+	.line-menu.half {
+		width: 50%;
+	}
+
+	.line-menu.start {
+		transition: transform 330ms cubic-bezier(0.54, -0.81, 0.57, 0.57);
+		transform-origin: right;
+	}
+
+	.open .line-menu.start {
+		transform: rotate(-90deg) translateX(6px);
+	}
+
+	.line-menu.end {
+		transition: transform 330ms cubic-bezier(0.54, -0.81, 0.57, 0.57);
+		transform-origin: left;
+	}
+
+	.open .line-menu.end {
+		transform: rotate(-90deg) translateX(-6px);
 	}
 </style>

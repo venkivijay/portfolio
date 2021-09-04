@@ -1,5 +1,5 @@
 <template>
-	<section id="home">
+	<section id="home" class="mt-4 md:mt-8">
 		<article class="grid md:grid-cols-2">
 			<div id="intro" class="flex flex-col items-center md:items-stretch md:self-end">
 				<h2 class="self-start mb-1 md:self-auto c-highlight text-h2">
