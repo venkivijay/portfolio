@@ -1,6 +1,6 @@
 <template>
 	<div class="relative overflow-hidden wrapper">
-		<div id="skillcloud" class="absolute"></div>
+		<div id="skillcloud" class="absolute w-full h-full"></div>
 	</div>
 </template>
 
