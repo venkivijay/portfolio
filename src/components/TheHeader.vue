@@ -14,8 +14,8 @@
 			md:px-24
 			lg:px-32
 			xl:px-48
-			backdrop-filter backdrop-blur
 			border-primary
+			bg-background
 		"
 	>
 		<RouterLink to="#home" aria-label="Logo">

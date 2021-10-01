@@ -24,7 +24,7 @@
 				</div>
 			</div>
 			<div id="cta" class="justify-self-center md:justify-self-auto md:self-start whitespace-nowrap">
-				<button class="c-button-primary">Hire Me</button>
+				<button class="c-button-primary"><router-link :to="{ hash: '#contact' }">Hire Me</router-link></button>
 				<a href="#" class="ml-3 align-baseline text-accent">
 					Get Resume
 					<Icon primaryIcon="download" class="inline w-5 h-5 align-text-bottom text-accent" />

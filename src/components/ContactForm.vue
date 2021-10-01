@@ -27,6 +27,7 @@
 		form {
 			grid-row: 1/3;
 			grid-column: 2;
+			padding-top: calc(var(--nav-height) + 0.5rem);
 		}
 	}
 </style>

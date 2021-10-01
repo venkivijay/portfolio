@@ -1,6 +1,8 @@
 <template>
 	<footer>
-		<SocialBar />
+		<div class="w-full mx-auto mb-4 md:max-w-lg">
+			<SocialBar />
+		</div>
 		<p class="pl-1 text-center text-small">
 			Design inspired from
 			<a href="https://www.behance.net/Ibrahim_Shamss/" target="_blank" rel="noopener noreferrer">

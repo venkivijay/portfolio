@@ -12,6 +12,10 @@
 			:src="project.imageURL ? project.imageURL : 'https://via.placeholder.com/250x200'"
 			:alt="'A screenshot of ' + project.name + 'project'"
 		/>
+		<div class="flex justify-around p-2">
+			<button class="py-1 c-button-primary"><a :href="project.liveURL">Visit</a></button>
+			<button class="py-1 c-button-primary"><a :href="project.sourceURL">Source</a></button>
+		</div>
 	</article>
 </template>
 

@@ -11,12 +11,16 @@ const projects = [
 		description: "Searchable/filterable file browser for a GitHub repo",
 		tags: ["Vue2", "Nuxt.js", "PWA"],
 		imageURL: "",
+		liveURL: "https://xplore.venkivijay.com/",
+		sourceURL: "https://github.com/venkivijay/xplore",
 	},
 	{
 		name: "Invoice Tracker",
 		description: "A simple app to create and manage invoices",
 		tags: ["Vue2", "Firebase", "Chart.js"],
 		imageURL: "",
+		liveURL: "https://wizardly-tereshkova-b408fe.netlify.app/",
+		sourceURL: "https://github.com/venkivijay/invoice-tracker",
 	},
 ]
 
