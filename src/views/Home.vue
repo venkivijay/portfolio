@@ -6,10 +6,10 @@
 					<router-link class="header-anchor" :to="{ hash: '#home' }">Hello</router-link>
 				</h2>
 				<h1 class="mb-4 font-bold text-h1 md:whitespace-nowrap text-secondary">
-					I'M VENKI
-					<span class="md:block">VIJAY</span>
+					I'M {{ owner.firstName.toUpperCase() }}
+					<span class="md:block">{{ owner.lastName.toUpperCase() }}</span>
 				</h1>
-				<p class="mb-4">Full Stack Developer</p>
+				<p class="mb-4">{{ owner.role }}</p>
 			</div>
 			<div id="picture" class="relative p-8 mb-4 justify-self-center profile md:justify-self-end">
 				<!-- TODO: Decide on proper picture resolution. Recommended: 300*300 -->
@@ -19,7 +19,7 @@
 					<Icon primaryIcon="man-star" class="w-10 h-10 p-1 text-accent" />
 					<div>
 						<p class="font-bold">Experience</p>
-						<p class="font-bold">4 Years</p>
+						<p class="font-bold">{{ owner.experience }} Years</p>
 					</div>
 				</div>
 			</div>
@@ -37,6 +37,7 @@
 <script setup>
 	import profileImg from "assets/images/me.png"
 	import Icon from "components/Icon.vue"
+	import { owner } from "/src/staticData"
 </script>
 
 <style scoped>

@@ -1,24 +1,24 @@
 const owner = {
 	firstName: "Venki",
 	lastName: "Vijay",
-	role: ["Full Stack Developer"],
-	experience: 4,
+	role: "Full Stack Developer",
+	experience: 3,
 }
 
 const projects = [
 	{
 		name: "Xplore",
 		description: "Searchable/filterable file browser for a GitHub repo",
-		tags: ["Vue2", "Nuxt.js", "PWA"],
-		imageURL: "",
+		tags: ["Nuxt.js", "PWA"],
+		image: "xplore",
 		liveURL: "https://xplore.venkivijay.com/",
 		sourceURL: "https://github.com/venkivijay/xplore",
 	},
 	{
 		name: "Invoice Tracker",
 		description: "A simple app to create and manage invoices",
-		tags: ["Vue2", "Firebase", "Chart.js"],
-		imageURL: "",
+		tags: ["Vue", "Firebase", "Chart.js"],
+		image: "invoice-tracker",
 		liveURL: "https://wizardly-tereshkova-b408fe.netlify.app/",
 		sourceURL: "https://github.com/venkivijay/invoice-tracker",
 	},
@@ -44,12 +44,6 @@ const socials = [
 	{
 		name: "WhatsApp",
 		primaryIcon: "whatsapp",
-		url: "",
-	},
-	// TODO: Add rss url
-	{
-		name: "RSS",
-		primaryIcon: "rss",
 		url: "",
 	},
 ]

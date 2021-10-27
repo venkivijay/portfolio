@@ -9,8 +9,8 @@
 		</ul>
 		<img
 			class="self-center p-2 rounded-2xl"
-			:src="project.imageURL ? project.imageURL : 'https://via.placeholder.com/250x200'"
-			:alt="'A screenshot of ' + project.name + 'project'"
+			:src="getSrc(project.image)"
+			:alt="'A screenshot of ' + project.name + ' project'"
 		/>
 		<div class="flex justify-around p-2">
 			<button class="py-1 c-button-primary"><a :href="project.liveURL">Visit</a></button>
@@ -25,6 +25,13 @@
 			project: {
 				type: Object,
 				required: true,
+			},
+		},
+		methods: {
+			getSrc(name) {
+				const path = `../assets/images/projects/${name}.png`
+				const modules = import.meta.globEager("../assets/images/projects/*.png")
+				return modules[path].default
 			},
 		},
 	}
