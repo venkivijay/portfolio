@@ -26,6 +26,19 @@
 		/>
 	</head>
 	<body>
+		<noscript>
+			<strong>
+				I'm sorry but this site doesn't work properly without JavaScript enabled. Please enable it to continue.
+			</strong>
+		</noscript>
+		<!-- Dummy form for netlify bots -->
+		<form name="leads" data-netlify="true" data-netlify-honeypot="bot-field" hidden aria-hidden="true">
+			<input type="hidden" name="form-name" value="leads" />
+			<input type="text" name="name" />
+			<input type="email" name="email" />
+			<input type="text" name="subject" />
+			<textarea type="text" name="message"></textarea>
+		</form>
 		<div id="app"></div>
 		<script type="module" src="/src/main.js"></script>
 	</body>

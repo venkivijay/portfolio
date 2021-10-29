@@ -11,10 +11,13 @@
 		"structure": "tree -L 2  -I 'reference|node_modules|icons'"
 	},
 	"dependencies": {
+		"@vuelidate/core": "^2.0.0-alpha.30",
+		"@vuelidate/validators": "^2.0.0-alpha.24",
 		"debounce": "^1.2.1",
 		"three": "^0.130.0",
 		"vue": "^3.0.5",
-		"vue-router": "^4.0.8"
+		"vue-router": "^4.0.8",
+		"vue-toastification": "^2.0.0-rc.5"
 	},
 	"devDependencies": {
 		"@vitejs/plugin-vue": "^1.2.3",
