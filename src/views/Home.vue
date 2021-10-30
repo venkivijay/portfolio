@@ -25,7 +25,8 @@
 			</div>
 			<div id="cta" class="justify-self-center md:justify-self-auto md:self-start whitespace-nowrap">
 				<button class="c-button-primary"><router-link :to="{ hash: '#contact' }">Hire Me</router-link></button>
-				<a href="#" class="ml-3 align-baseline text-accent">
+				<!-- TODO: Include resume for download -->
+				<a href="#" class="ml-3 align-baseline text-accent" target="_blank" rel="noopener noreferrer">
 					Get Resume
 					<Icon primaryIcon="download" class="inline w-5 h-5 align-text-bottom text-accent" />
 				</a>
