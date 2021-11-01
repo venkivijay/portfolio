@@ -1,5 +1,7 @@
 <template>
-	<router-link :to="{ hash: to }" active-class="" exact-active-class="" :class="isActive"><slot /></router-link>
+	<router-link :to="{ path: '/', hash: to }" active-class="" exact-active-class="" :class="isActive">
+		<slot />
+	</router-link>
 </template>
 
 <script>

@@ -18,7 +18,7 @@
 			bg-background
 		"
 	>
-		<RouterLink to="#home" aria-label="Logo">
+		<RouterLink :to="{ path: '/', hash: '#home' }" aria-label="Logo">
 			<svg class="w-12 h-12 fill-current stroke-current stroke-2 text-accent">
 				<use xlink:href="#logo" />
 			</svg>
