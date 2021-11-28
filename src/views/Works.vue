@@ -9,7 +9,6 @@
 		<div id="projects" class="flex flex-wrap justify-center">
 			<ProjectCard v-for="project in projects" :key="project.name" :project="project" />
 		</div>
-		<!-- <p class="justify-self-start">View more -></p> -->
 	</section>
 </template>
 

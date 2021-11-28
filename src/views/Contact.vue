@@ -7,7 +7,7 @@
 			<h3 class="py-2 text-h4 text-secondary">Let's work together</h3>
 			<p class="py-2">
 				I am open for hire to work on your awesome idea. I also like to contribute to open-source projects. Feel
-				free to contact me if you want to talk about your projects.
+				free to contact me.
 			</p>
 		</div>
 		<ContactForm />

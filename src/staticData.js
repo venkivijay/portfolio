@@ -44,13 +44,13 @@ const socials = [
 	{
 		name: "WhatsApp",
 		primaryIcon: "whatsapp",
-		url: "",
+		url: "https://wa.me/+918122932334",
 	},
 ]
 
 const contact = {
 	location: "Salem - Chennai, TamilNadu, India",
-	email: "me@venkivijay.com",
+	email: "venkivijay@hotmail.com",
 	phone: "+91-6369888030",
 }
 

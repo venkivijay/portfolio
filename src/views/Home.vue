@@ -12,7 +12,6 @@
 				<p class="mb-4">{{ owner.role }}</p>
 			</div>
 			<div id="picture" class="relative p-8 mb-4 justify-self-center profile md:justify-self-end">
-				<!-- TODO: Decide on proper picture resolution. Recommended: 300*300 -->
 				<img class="rounded profile-image" :src="profileImg" alt="A picture of Venki" />
 				<div id="dots" class="absolute top-0 right-0 w-16 h-16 dots text-accent"></div>
 				<div id="experience" class="absolute bottom-0 right-0 flex items-center p-2 glass">
@@ -25,7 +24,6 @@
 			</div>
 			<div id="cta" class="justify-self-center md:justify-self-auto md:self-start whitespace-nowrap">
 				<button class="c-button-primary"><router-link :to="{ hash: '#contact' }">Hire Me</router-link></button>
-				<!-- TODO: Include resume for download -->
 				<a
 					href="https://venkivijay.github.io/resume/Venkatesh-Developer-Resume.pdf"
 					class="ml-3 align-baseline text-accent"
