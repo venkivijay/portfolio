@@ -20,7 +20,6 @@
 	}
 	#app {
 		@apply font-base text-primary bg-background;
-		/* TODO: Needs tweaking */
 		background: radial-gradient(var(--color-accent-alpha) 8%, transparent 0), var(--color-background);
 		background-position: 0 0, 1.75em 1.75em;
 		background-size: 1.75em 1.75em;

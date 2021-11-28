@@ -36,7 +36,6 @@
 				</li>
 			</ul>
 		</nav>
-		<!-- Hamburger Menu Button -->
 		<button
 			class="flex flex-col justify-between cursor-pointer wrapper-menu md:hidden"
 			:class="isMenuOpen ? 'open' : ''"

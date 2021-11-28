@@ -3,20 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
-  --color-primary: #0e1630;
-  --color-secondary: #eb4a4a;
-  --color-background: #0e1630; page background
-  --color-surface: #171f38; cards background
-  --color-error: #eb4a4a; form field error color
-  --color-text-default: #ffffff; title color
-  --color-text-primary: #eb4a4a; section title, button, active
-  --color-text-secondary: #808dad; contents
-  --color-text-hint: #808dad; labels
-  --color-text-disabled: yellow; not decided yet
-  --color-icon-primary: #808dad; default icon color
-  --color-icon-secondary: #eb4a4a; hover, highlight icon color
-} */
 :root {
 	--color-primary: #808dad;
 	--color-secondary: #ffffff;

@@ -1,5 +1,18 @@
 {
-	"version": "0.0.0",
+	"name": "portfolio",
+	"private": true,
+	"version": "1.0.0",
+	"author": {
+		"name": "Venki Vijay",
+		"email": "venkivijay@hotmail.com",
+		"url": "https://venkivijay.com"
+	},
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/venkivijay/pf.git"
+	},
+	"bugs": "https://github.com/venkivijay/pf/issues",
 	"scripts": {
 		"dev": "vite --host",
 		"build": "vite build",
@@ -23,7 +36,6 @@
 		"@vitejs/plugin-vue": "^1.2.3",
 		"@vue/compiler-sfc": "^3.0.5",
 		"autoprefixer": "^10.2.6",
-		"dat.gui": "^0.7.7",
 		"eslint": "^7.28.0",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-vue": "^7.10.0",
