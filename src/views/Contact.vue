@@ -14,15 +14,15 @@
 		<div id="contacts" class="my-4 md:self-start md:pr-8 lg:pr-16">
 			<div id="location" class="flex items-center py-2">
 				<Icon primaryIcon="location" class="w-6 h-6 p-1 rounded-lg bg-accent-alpha text-accent" />
-				<p class="pl-4">Salem - Chennai, TamilNadu, India</p>
+				<p class="pl-4">{{ contact.location }}</p>
 			</div>
 			<div id="mail" class="flex items-center py-2">
 				<Icon primaryIcon="mail" class="w-6 h-6 p-1 rounded-lg bg-accent-alpha text-accent" />
-				<p class="pl-4">me@venkivijay.com</p>
+				<p class="pl-4">{{ contact.email }}</p>
 			</div>
 			<div id="phone" class="flex items-center py-2">
 				<Icon primaryIcon="phone" class="w-6 h-6 p-1 rounded-lg bg-accent-alpha text-accent" />
-				<p class="pl-4">+91 6369888030</p>
+				<p class="pl-4">{{ contact.phone }}</p>
 			</div>
 		</div>
 	</section>
@@ -31,4 +31,5 @@
 <script setup>
 	import Icon from "components/Icon.vue"
 	import ContactForm from "components/ContactForm.vue"
+	import { contact } from "../staticData"
 </script>

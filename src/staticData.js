@@ -40,7 +40,6 @@ const socials = [
 		primaryIcon: "twitter",
 		url: "https://twitter.com/venkivijay_",
 	},
-	// TODO: Add whatsapp url
 	{
 		name: "WhatsApp",
 		primaryIcon: "whatsapp",
