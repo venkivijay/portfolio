@@ -15,6 +15,14 @@ const projects = [
 		sourceURL: "https://github.com/venkivijay/xplore",
 	},
 	{
+		name: "Links",
+		description: "Linktree like bio hosting my social links",
+		tags: ["Vue", "PostCSS", "Vite"],
+		image: "links",
+		liveURL: "https://links.venkivijay.com/",
+		sourceURL: "https://github.com/venkivijay/links",
+	},
+	{
 		name: "Invoice Tracker",
 		description: "A simple app to create and manage invoices",
 		tags: ["Vue", "Firebase", "Chart.js"],
