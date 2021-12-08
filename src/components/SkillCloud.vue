@@ -1,11 +1,16 @@
 <template>
 	<div class="relative overflow-hidden wrapper">
-		<div id="skillcloud" class="absolute w-full h-full"></div>
+		<div
+			id="skillcloud"
+			class="absolute w-full h-full"
+			@pointerdown="handleInteraction"
+			@pointerup="handleInteraction"
+		></div>
 	</div>
 </template>
 
 <script>
-	import { PerspectiveCamera, Scene, Vector3 } from "three"
+	import { PerspectiveCamera, Scene, Vector3, Group } from "three"
 	import { TrackballControls } from "/node_modules/three/examples/jsm/controls/TrackballControls.js"
 	import { CSS2DRenderer, CSS2DObject } from "/node_modules/three/examples/jsm/renderers/CSS2DRenderer.js"
 	import { skills } from "../staticData"
@@ -43,6 +48,10 @@
 					this.container.parentElement.clientHeight
 				)
 
+				// Group for CSSObjects
+				this.group = new Group()
+				this.scene.add(this.group)
+
 				// Create sphere and add to scene
 				this.addSphereToScene()
 				this.container.appendChild(this.renderer.domElement)
@@ -52,7 +61,9 @@
 				this.controls.rotateSpeed = 2
 				this.controls.noPan = true
 				this.controls.noZoom = true
-				this.controls.addEventListener("change", this.render)
+
+				// Custom control interaction handler
+				this.hasInteraction = false
 			},
 
 			addSphereToScene() {
@@ -100,13 +111,17 @@
 
 					// collect final objects to manipulate opacity later
 					this.objects.push(objectCSS)
-					this.scene.add(objectCSS)
+					this.group.add(objectCSS)
 				}
 			},
 
 			animate() {
 				requestAnimationFrame(this.animate)
 				this.addOpacity()
+				if (!this.hasInteraction) {
+					this.group.rotation.y += 0.004
+					this.group.rotation.x += 0.004
+				}
 				this.render()
 				this.controls.update()
 			},
@@ -132,6 +147,15 @@
 				)
 				this.controls.handleResize()
 				this.render()
+			},
+			handleInteraction(e) {
+				if (!e) return
+				if (e.type == "pointerdown") {
+					this.hasInteraction = true
+				}
+				if (e.type == "pointerup") {
+					this.hasInteraction = false
+				}
 			},
 		},
 		unmounted() {
