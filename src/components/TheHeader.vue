@@ -1,22 +1,6 @@
 <template>
 	<header
-		class="
-			sticky
-			top-0
-			z-50
-			flex
-			items-center
-			justify-between
-			px-8
-			py-2
-			bg-opacity-50
-			border-b
-			md:px-24
-			lg:px-32
-			xl:px-48
-			border-primary
-			bg-background
-		"
+		class="sticky top-0 flex items-center justify-between px-8 py-2 bg-opacity-50 border-b md:px-24 lg:px-32 xl:px-48 border-primary bg-background"
 	>
 		<RouterLink :to="{ path: '/', hash: '#home' }" aria-label="Logo">
 			<svg class="w-12 h-12 fill-current stroke-current stroke-2 text-accent">
@@ -74,6 +58,7 @@
 	header {
 		border-style: groove;
 		max-height: var(--nav-height);
+		z-index: 999;
 	}
 	.wrapper-menu {
 		width: 30px;

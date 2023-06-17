@@ -4,6 +4,7 @@ node_modules
 
 #Others
 reference
+*.md
 
 #images
 *.svg
