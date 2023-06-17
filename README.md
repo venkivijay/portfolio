@@ -1,37 +1,40 @@
 # Portfolio
 
--   [Portfolio](#portfolio)
-    -   [About project](#about-project)
-        -   [Techs used](#techs-used)
-        -   [Project Structure](#project-structure)
-        -   [Dependencies](#dependencies)
-    -   [Development](#development)
-        -   [Clone repo](#clone-repo)
-        -   [Development server](#development-server)
-        -   [Linting](#linting)
-        -   [Prettier](#prettier)
-        -   [Building and preview](#building-and-preview)
-    -   [Deployment](#deployment)
+- [Portfolio](#portfolio)
+  - [About project](#about-project)
+    - [Techs used](#techs-used)
+    - [Project Structure](#project-structure)
+    - [Dependencies](#dependencies)
+  - [Development](#development)
+    - [Clone repo](#clone-repo)
+    - [Development server](#development-server)
+    - [Linting](#linting)
+    - [Prettier](#prettier)
+    - [Building and preview](#building-and-preview)
+  - [Deployment](#deployment)
 
 ## About project
 
 ### Techs used
 
--   Vite
--   Vue3
--   TailwindCSS
--   Three.js
+- Vite
+- Vue3
+- TailwindCSS
+- Three.js
 
 ### Project Structure
 
 ```bash
 .
 ├── index.html
+├── LICENSE
+├── netlify.toml
 ├── package.json
 ├── package-lock.json
 ├── postcss.config.js
 ├── public
-│   └── favicon.ico
+│   ├── favicon.ico
+│   └── robots.txt
 ├── README.md
 ├── src
 │   ├── App.vue
@@ -45,7 +48,7 @@
 ├── tailwind.config.js
 └── vite.config.js
 
-7 directories, 11 files
+7 directories, 14 files
 ```
 
 ### Dependencies
@@ -62,9 +65,9 @@
 ### Clone repo
 
 ```bash
-$ git clone git@github.com:venkivijay/pf.git
-$ cd pf
-$ npm install
+git clone git@github.com:venkivijay/pf.git
+cd pf
+npm install
 ```
 
 ### Development server
