@@ -25,7 +25,7 @@
 			<div id="cta" class="justify-self-center md:justify-self-auto md:self-start whitespace-nowrap">
 				<button class="c-button-primary"><router-link :to="{ hash: '#contact' }">Hire Me</router-link></button>
 				<a
-					href="https://venkivijay.github.io/resume/Venkatesh-Developer-Resume.pdf"
+					href="https://venkivijay.github.io/resume/"
 					class="ml-3 align-baseline text-accent"
 					target="_blank"
 					rel="noopener noreferrer"

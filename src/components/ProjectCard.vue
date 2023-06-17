@@ -8,15 +8,16 @@
 			</li>
 		</ul>
 		<img
+			v-if="project.image"
 			class="self-center p-2 rounded-2xl"
 			:src="getSrc(project.image)"
 			:alt="'A screenshot of ' + project.name + ' project'"
 		/>
 		<div class="flex justify-around p-2">
-			<button class="py-1 c-button-primary">
+			<button v-if="project.liveURL" class="py-1 c-button-primary">
 				<a :href="project.liveURL" target="_blank" rel="noopener noreferrer">Visit</a>
 			</button>
-			<button class="py-1 c-button-primary">
+			<button v-if="project.sourceURL" class="py-1 c-button-primary">
 				<a :href="project.sourceURL" target="_blank" rel="noopener noreferrer">Source</a>
 			</button>
 		</div>

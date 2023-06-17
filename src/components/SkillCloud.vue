@@ -83,7 +83,7 @@
 					// Create and add icon as an image to the element
 					const img = document.createElement("img")
 					img.className = "icon"
-					img.src = "https://unpkg.com/simple-icons@v5/icons/" + this.skills[i].slug + ".svg"
+					img.src = "https://unpkg.com/simple-icons@9.1.0/icons/" + this.skills[i].slug + ".svg"
 					img.alt = this.skills[i].name
 					img.draggable = false
 
@@ -96,7 +96,7 @@
 					// 	"invert(42%) sepia(11%) saturate(6555%) hue-rotate(326deg) brightness(95%) contrast(93%)"
 
 					const label = document.createElement("p")
-					label.className = "label"
+					label.className = "label whitespace-nowrap"
 					label.innerText = this.skills[i].name
 
 					iconWrapper.appendChild(img)
@@ -180,8 +180,8 @@
 		height: 100%;
 	}
 	.iconWrapper {
-		width: 60px;
-		height: 60px;
+		width: 50px;
+		height: 50px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
