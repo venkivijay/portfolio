@@ -1,47 +1,37 @@
 {
-	"name": "portfolio",
-	"private": true,
-	"version": "1.0.0",
-	"author": {
-		"name": "Venki Vijay",
-		"email": "venkivijay@hotmail.com",
-		"url": "https://venkivijay.com"
-	},
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/venkivijay/pf.git"
-	},
-	"bugs": "https://github.com/venkivijay/pf/issues",
-	"scripts": {
-		"dev": "vite --host",
-		"build": "vite build",
-		"serve": "vite preview",
-		"pretty-yell": "prettier --check .",
-		"pretty": "prettier --write .",
-		"lint-yell": "eslint \"./**/*.{js,vue}\"",
-		"lint": "eslint \"./**/*.{js,vue}\" --fix",
-		"structure": "tree -L 2  -I 'reference|node_modules|icons'"
-	},
-	"dependencies": {
-		"@vuelidate/core": "^2.0.2",
-		"@vuelidate/validators": "^2.0.2",
-		"debounce": "^1.2.1",
-		"three": "^0.130.1",
-		"vue": "^3.3.4",
-		"vue-router": "^4.2.2",
-		"vue-toastification": "^2.0.0-rc.5"
-	},
-	"devDependencies": {
-		"@vitejs/plugin-vue": "^1.10.2",
-		"@vue/compiler-sfc": "^3.3.4",
-		"autoprefixer": "^10.4.14",
-		"eslint": "^7.32.0",
-		"eslint-config-prettier": "^8.8.0",
-		"eslint-plugin-vue": "^7.20.0",
-		"postcss": "^8.4.24",
-		"prettier": "^2.8.8",
-		"tailwindcss": "^2.2.19",
-		"vite": "^2.9.16"
-	}
+  "name": "nuxt-app",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint:check": "eslint --ext .ts,.tsx,.js,.jsx,.vue .",
+    "lint:fix": "eslint --ext .ts,.tsx,.js,.jsx,.vue --fix ."
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "latest",
+    "@nuxtjs/eslint-config-typescript": "^12.0.0",
+    "@nuxtjs/eslint-module": "^4.1.0",
+    "@types/node": "^18",
+    "@typescript-eslint/eslint-plugin": "^5.59.11",
+    "@typescript-eslint/parser": "^5.59.11",
+    "autoprefixer": "^10.4.14",
+    "eslint": "^8.43.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-nuxt": "^4.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^9.14.1",
+    "nuxt": "^3.5.2",
+    "postcss": "^8.4.24",
+    "tailwindcss": "^3.3.2"
+  },
+  "dependencies": {
+    "vue-toastification": "^2.0.0-rc.5",
+    "@vuelidate/core": "^2.0.2",
+    "@vuelidate/validators": "^2.0.2",
+    "three": "^0.130.1",
+    "debounce": "^1.2.1"
+  }
 }

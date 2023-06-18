@@ -1,6 +1,41 @@
 module.exports = {
-	extends: ["plugin:vue/vue3-essential", "prettier"],
-	rules: {
-		"vue/no-unused-vars": "error",
-	},
-}
+  root: true,
+  env: {
+    browser: true,
+    es2021: true,
+    node: true,
+  },
+  extends: [
+    "@nuxtjs/eslint-config-typescript",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:nuxt/recommended",
+    "plugin:vue/vue3-recommended",
+    "eslint:recommended",
+    "standard",
+    "plugin:prettier/recommended",
+  ],
+  globals: {
+    defineNuxtConfig: false,
+    defineNuxtPlugin: false,
+    useNuxtApp: false,
+  },
+  overrides: [],
+  parser: "vue-eslint-parser",
+  parserOptions: {
+    parser: "@typescript-eslint/parser",
+    ecmaVersion: "latest",
+    sourceType: "module",
+  },
+  plugins: ["vue", "@typescript-eslint"],
+  rules: {
+    "comma-dangle": ["error", "only-multiline"],
+    "@typescript-eslint/no-non-null-assertion": 0,
+    "@typescript-eslint/no-explicit-any": 0,
+    "vue/require-default-prop": 0,
+    "vue/multi-word-component-names": 0,
+    "import/no-named-as-default-member": 0,
+    "import/no-named-as-default": 0,
+    "vue/no-multiple-template-root": "off",
+    "no-undef": "off",
+  },
+};

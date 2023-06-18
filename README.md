@@ -1,93 +1,63 @@
-# Portfolio
+# Nuxt 3 Minimal Starter
 
-- [Portfolio](#portfolio)
-  - [About project](#about-project)
-    - [Techs used](#techs-used)
-    - [Project Structure](#project-structure)
-    - [Dependencies](#dependencies)
-  - [Development](#development)
-    - [Clone repo](#clone-repo)
-    - [Development server](#development-server)
-    - [Linting](#linting)
-    - [Prettier](#prettier)
-    - [Building and preview](#building-and-preview)
-  - [Deployment](#deployment)
+Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
-## About project
+## Setup
 
-### Techs used
-
-- Vite
-- Vue3
-- TailwindCSS
-- Three.js
-
-### Project Structure
+Make sure to install the dependencies:
 
 ```bash
-.
-├── index.html
-├── LICENSE
-├── netlify.toml
-├── package.json
-├── package-lock.json
-├── postcss.config.js
-├── public
-│   ├── favicon.ico
-│   └── robots.txt
-├── README.md
-├── src
-│   ├── App.vue
-│   ├── assets
-│   ├── components
-│   ├── layouts
-│   ├── main.js
-│   ├── router
-│   ├── staticData.js
-│   └── views
-├── tailwind.config.js
-└── vite.config.js
-
-7 directories, 14 files
-```
-
-### Dependencies
-
-| Dependency |                                      |
-| :--------- | :----------------------------------: |
-| vue        |                 Vue3                 |
-| three      |    Implementation of skill could     |
-| vue-router |          Handles navigation          |
-| debounce   | To debounce expensive function calls |
-
-## Development
-
-### Clone repo
-
-```bash
-git clone git@github.com:venkivijay/pf.git
-cd pf
+# npm
 npm install
+
+# pnpm
+pnpm install
+
+# yarn
+yarn install
 ```
 
-### Development server
+## Development Server
 
-Run `npm run dev` to spin up a development server. Navigate to port 3000 on either localhost or on your network IP. The app will automatically reload if you change any of the source files.
+Start the development server on `http://localhost:3000`:
 
-### Linting
+```bash
+# npm
+npm run dev
 
-Run `npm run lint-yell` to get lint errors. Notice that this will not fix it by default. To fix lint errors, run `npm run lint`.
+# pnpm
+pnpm run dev
 
-### Prettier
+# yarn
+yarn dev
+```
 
-Run `npm run pretty-yell` to get files that are not prettified. To prettify, run `npm run pretty`.
+## Production
 
-### Building and preview
+Build the application for production:
 
-Run `npm run build` to build for production. Build files will be placed in `dist` directory. Run `npm run serve` to serve the production build.
+```bash
+# npm
+npm run build
 
-## Deployment
+# pnpm
+pnpm run build
 
-Currently, deployment is handled by Netlify. Pushing code to `dev branch` will automatically trigger a deploy.
+# yarn
+yarn build
+```
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/bd039447-bb78-4d60-bcbb-a9a30fbb51c4/deploy-status)](https://app.netlify.com/sites/dev-portfolio-venkivijay/deploys)
+Locally preview production build:
+
+```bash
+# npm
+npm run preview
+
+# pnpm
+pnpm run preview
+
+# yarn
+yarn preview
+```
+
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
