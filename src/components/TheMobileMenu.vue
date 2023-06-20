@@ -39,7 +39,8 @@
 		transition: all 0.275s 0.1s;
 	}
 	nav.is-open {
-		@apply opacity-100 z-40 visible;
+		@apply opacity-100 visible;
+		z-index: 900;
 	}
 
 	nav::before {
