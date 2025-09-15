@@ -1,0 +1,9 @@
+node_modules/
+dist/
+*.md
+*.json
+*.config.js
+.vscode/
+.husky/
+public/
+*.log
