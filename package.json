@@ -19,8 +19,7 @@
     "build": "vite-ssg build && node ./scripts/copy-fonts.js && node ./scripts/rss.js",
     "preview": "vite preview",
     "lint": "eslint",
-    "lint:fix": "eslint --fix",
-    "structure": "tree -L 2 -I 'reference|node_modules|icons'"
+    "lint:fix": "eslint --fix"
   },
   "dependencies": {
     "@tweenjs/tween.js": "^25.0.0",

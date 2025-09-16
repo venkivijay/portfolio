@@ -30,26 +30,6 @@ A modern, feature-rich developer portfolio and blog built with Vue 3, Vite, and 
 
 ---
 
-## 📁 Directory Structure
-
-```bash
-├── src/
-│   ├── App.vue            # Main app shell
-│   ├── main.js            # App entry, SSG setup
-│   ├── components/        # UI components (Header, Footer, SkillCloud, etc.)
-│   ├── logics/            # Composables and logic utilities
-│   └── assets/            # CSS and media assets
-├── pages/                 # Markdown pages (index, posts, notes, projects, etc.)
-├── public/                # Static assets
-├── scripts/               # Utility scripts
-├── index.html             # HTML entry
-├── vite.config.js         # Vite and plugin configuration
-├── uno.config.js          # UnoCSS config
-├── package.json           # Dependencies and scripts
-```
-
----
-
 ## ⚡️ Getting Started
 
 ### Prerequisites
@@ -118,7 +98,7 @@ MIT © [Venki Vijay](https://venkivijay.com)
 
 ## 🙏 Credits
 
-- Inspired by modern Vue and SSG starter templates
+- Inspired by Anthony Fu's Portfolio
 - Uses open source libraries: Vue, Vite, UnoCSS, Three.js, and more
 
 ---
