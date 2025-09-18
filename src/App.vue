@@ -1,7 +1,7 @@
 <template>
-  <TheHeader />
+  <Header />
   <main class="px-7 py-10 of-x-hidden">
     <RouterView />
-    <TheFooter />
+    <Footer />
   </main>
 </template>

@@ -29,19 +29,18 @@ function addSphereToScene() {
   const vector = new Vector3()
   props.skills.forEach((skill, i) => {
     const iconWrapper = document.createElement('div')
+    iconWrapper.className = 'flex flex-col items-center gap-1'
 
-    const img = document.createElement('img')
-    img.src = `https://unpkg.com/simple-icons@9.1.0/icons/${skill.slug}.svg`
-    img.alt = skill.name
-    img.draggable = false
-    img.className = 'w-6 h-6 md:w-10 md:h-10 select-none !m-0'
-    applyThemeToIcon(img)
+    const icon = document.createElement('div')
+    icon.className = `select-none !m-0 w-6 h-6 md:w-10 md:h-10 !grayscale-100`
+    icon.classList.add(skill.slug)
+    applyThemeToIcon(icon)
 
     const label = document.createElement('p')
     label.textContent = skill.name
     label.className = 'text-xs md:text-sm whitespace-nowrap select-none !m-0'
 
-    iconWrapper.appendChild(img)
+    iconWrapper.appendChild(icon)
     iconWrapper.appendChild(label)
 
     const objectCSS = new CSS2DObject(iconWrapper)
@@ -55,17 +54,17 @@ function addSphereToScene() {
   })
 }
 
-function applyThemeToIcon(img) {
-  img.style.filter = isDark.value
-    ? 'invert(100%)'
-    : 'invert(0%)'
+function applyThemeToIcon(icon) {
+  icon.style.filter = isDark.value
+    ? 'invert(0%)'
+    : 'invert(100%)'
 }
 
 function applyThemeToScene() {
   for (const obj of objects.value) {
-    const img = obj.element.querySelector('img')
-    if (img)
-      applyThemeToIcon(img)
+    const icon = obj.element.querySelector('div')
+    if (icon)
+      applyThemeToIcon(icon)
   }
 }
 
