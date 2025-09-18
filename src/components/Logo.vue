@@ -1,6 +1,6 @@
 <template>
   <svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <title>Venkatesh @ venkivijay.com</title>
+    <title>Venki @ venkivijay.com</title>
     <g>
       <path
         class="path1"

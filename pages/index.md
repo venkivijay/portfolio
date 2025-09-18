@@ -1,7 +1,8 @@
 ---
 title: Venki Vijay | DevOps Engineer
 display: Hi, I'm Venki Vijay 👋
-description: Personal portfolio of Venki Vijay - DevOps Engineer passionate about building innovative solutions
+description: Venki Vijay's Portfolio - DevOps Engineer passionate about building innovative solutions
+image: https://venkivijay.com/og.png
 skills:
   - name: 'Linode'
     slug: 'akamai'

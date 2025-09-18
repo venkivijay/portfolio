@@ -2,15 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" />
+    <meta name="author" content="Venki Vijay" />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="revisit-after" content="7 days" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Megrim&family=Quicksand:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <title>Venki Vijay | Portfolio</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title="Venki Vijay's Blog" href="/feed.xml" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <title>Venki Vijay</title>
     <script>
       ;(function () {
         const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -21,14 +20,6 @@
     </script>
   </head>
   <body class="font-sans text-gray-700 dark:text-gray-200 relative">
-    <!-- Dummy form for netlify bots -->
-    <form name="leads" data-netlify="true" data-netlify-honeypot="bot-field" hidden aria-hidden="true">
-      <input type="hidden" name="form-name" value="leads" />
-      <input type="text" name="name" />
-      <input type="email" name="email" />
-      <input type="text" name="subject" />
-      <textarea type="text" name="message"></textarea>
-    </form>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
   </body>

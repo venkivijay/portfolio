@@ -1,5 +1,5 @@
 ---
-title: Blog - Venki Vijay
+title: Blog | Venki Vijay
 display: ''
 ---
 

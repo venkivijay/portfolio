@@ -2,6 +2,7 @@
 title: Chat | Venki Vijay
 display: Let's Chat!
 description: Chat with me
+image: https://venkivijay.com/og-chat.png
 ---
 
 ### Quick Chat
