@@ -7,5 +7,16 @@ export default antfu(
       overrides: {
       },
     },
+    ignores: [
+      'node_modules/',
+      'dist/',
+      '*.md',
+      '*.json',
+      '*.config.js',
+      '.vscode/',
+      '.husky/',
+      'public/',
+      '*.log',
+    ]
   },
 ).removeRules(['vue/no-v-text-v-html-on-component'])

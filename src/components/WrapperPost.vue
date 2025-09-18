@@ -12,11 +12,8 @@ const router = useRouter()
 const route = useRoute()
 const content = ref()
 
-const base = 'https://antfu.me'
-const tweetUrl = computed(() => `https://twitter.com/intent/tweet?text=${encodeURIComponent(`Reading @antfu7\'s ${base}${route.path}\n\nI think...`)}`)
-const elkUrl = computed(() => `https://elk.zone/intent/post?text=${encodeURIComponent(`Reading @antfu@m.webtoo.ls\'s ${base}${route.path}\n\nI think...`)}`)
-const blueskyUrl = computed(() => `https://bsky.app/intent/compose?text=${encodeURIComponent(`Reading @antfu.me ${base}${route.path}\n\nI think...`)}`)
-
+const base = 'https://venkivijay.com'
+const xUrl = computed(() => `https://x.com/intent/tweet?text=${encodeURIComponent(`Reading @venkivijay_\'s ${base}${route.path}\n\nI think...`)}`)
 onMounted(() => {
   const navigate = () => {
     if (location.hash) {
@@ -74,25 +71,9 @@ onMounted(() => {
       setTimeout(navigate, 1000)
   }, 1)
 })
-
-// const ArtComponent = computed(() => {
-//   let art = frontmatter.art
-//   if (art === 'random')
-//     art = Math.random() > 0.5 ? 'plum' : 'dots'
-//   if (typeof window !== 'undefined') {
-//     if (art === 'plum')
-//       return defineAsyncComponent(() => import('./ArtPlum.vue'))
-//     else if (art === 'dots')
-//       return defineAsyncComponent(() => import('./ArtDots.vue'))
-//   }
-//   return undefined
-// })
 </script>
 
 <template>
-  <!-- <ClientOnly v-if="ArtComponent">
-    <component :is="ArtComponent" />
-  </ClientOnly> -->
   <div
     v-if="frontmatter.display ?? frontmatter.title"
     class="prose m-auto mb-8"
@@ -141,11 +122,7 @@ onMounted(() => {
     <template v-if="frontmatter.duration">
       <span font-mono op50>> </span>
       <span op50>comment on </span>
-      <a :href="blueskyUrl" target="_blank" op50>bluesky</a>
-      <span op25> / </span>
-      <a :href="elkUrl" target="_blank" op50>mastodon</a>
-      <span op25> / </span>
-      <a :href="tweetUrl" target="_blank" op50>twitter</a>
+      <a :href="xUrl" target="_blank" op50>X</a>
     </template>
     <br>
     <span font-mono op50>> </span>

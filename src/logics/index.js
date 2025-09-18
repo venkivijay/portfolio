@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import { nextTick, useDark } from 'vue'
 
 export const isDark = useDark()
 
@@ -7,7 +8,6 @@ export const isDark = useDark()
  * @see https://github.com/vuejs/vitepress/pull/2347
  */
 export function toggleDark(event) {
-  // @ts-expect-error experimental API
   const isAppearanceTransition = document.startViewTransition
     && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
