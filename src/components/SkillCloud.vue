@@ -1,217 +1,137 @@
-<template>
-	<div class="relative overflow-hidden wrapper">
-		<div
-			id="skillcloud"
-			class="absolute w-full h-full"
-			@pointerdown="handleInteraction"
-			@pointerup="handleInteraction"
-		></div>
-	</div>
-</template>
+<script setup>
+import { Group, PerspectiveCamera, Scene, Vector3 } from 'three'
+import { TrackballControls } from 'three/addons/controls/TrackballControls.js'
+import { CSS2DObject, CSS2DRenderer } from 'three/addons/renderers/CSS2DRenderer.js'
+import { isDark } from '~/logics'
 
-<script>
-	import { PerspectiveCamera, Scene, Vector3, Group } from "three"
-	import { TrackballControls } from "/node_modules/three/examples/jsm/controls/TrackballControls.js"
-	import { CSS2DRenderer, CSS2DObject } from "/node_modules/three/examples/jsm/renderers/CSS2DRenderer.js"
-	import { skills } from "../staticData"
+const props = defineProps({
+  skills: {
+    type: Array,
+    required: true,
+  },
+})
+const container = ref(null)
+const camera = new PerspectiveCamera(35, 1, 0.1, 3500)
+const scene = new Scene()
+const group = new Group()
+const renderer = ref()
+const controls = ref()
+const objects = ref([])
+const hasInteraction = ref(false)
 
-	export default {
-		created() {
-			window.addEventListener("resize", this.windowResizeHandler)
-		},
-		mounted() {
-			this.init()
-			this.animate()
-		},
-		methods: {
-			init() {
-				// set skills
-				this.skills = skills
+function handleInteraction(e) {
+  if (!e)
+    return
+  hasInteraction.value = e.type === 'pointerdown'
+}
 
-				// final css objects that gets added to the scene
-				this.objects = []
+function addSphereToScene() {
+  const vector = new Vector3()
+  props.skills.forEach((skill, i) => {
+    const iconWrapper = document.createElement('div')
+    iconWrapper.className = 'flex flex-col items-center gap-1'
 
-				// get the container
-				this.container = document.getElementById("skillcloud")
+    const icon = document.createElement('div')
+    icon.className = `select-none !m-0 w-6 h-6 md:w-10 md:h-10 !grayscale-100`
+    icon.classList.add(skill.slug)
+    applyThemeToIcon(icon)
 
-				// Setting Camera
-				this.camera = new PerspectiveCamera(35, 1, 0.1, 3500)
-				this.camera.position.z = 2000
+    const label = document.createElement('p')
+    label.textContent = skill.name
+    label.className = 'text-xs md:text-sm whitespace-nowrap select-none !m-0'
 
-				// Setting Scene
-				this.scene = new Scene()
+    iconWrapper.appendChild(icon)
+    iconWrapper.appendChild(label)
 
-				// Setting Renderer
-				this.renderer = new CSS2DRenderer()
-				this.renderer.setSize(
-					this.container.parentElement.clientWidth,
-					this.container.parentElement.clientHeight
-				)
+    const objectCSS = new CSS2DObject(iconWrapper)
+    const phi = Math.acos(-1 + (2 * i) / props.skills.length)
+    const theta = Math.sqrt(props.skills.length * Math.PI) * phi
+    objectCSS.position.setFromSphericalCoords(500, phi, theta)
+    vector.copy(objectCSS.position).multiplyScalar(2)
 
-				// Group for CSSObjects
-				this.group = new Group()
-				this.scene.add(this.group)
+    objects.value.push(objectCSS)
+    group.add(objectCSS)
+  })
+}
 
-				// Create sphere and add to scene
-				this.addSphereToScene()
-				this.container.appendChild(this.renderer.domElement)
+function applyThemeToIcon(icon) {
+  icon.style.filter = isDark.value
+    ? 'invert(0%)'
+    : 'invert(100%)'
+}
 
-				// Setting Controls
-				this.controls = new TrackballControls(this.camera, this.renderer.domElement)
-				this.controls.rotateSpeed = 2
-				this.controls.noPan = true
-				this.controls.noZoom = true
+function applyThemeToScene() {
+  for (const obj of objects.value) {
+    const icon = obj.element.querySelector('div')
+    if (icon)
+      applyThemeToIcon(icon)
+  }
+}
 
-				// Custom control interaction handler
-				this.hasInteraction = false
-			},
+function animate() {
+  requestAnimationFrame(animate)
+  addOpacity()
+  if (!hasInteraction.value) {
+    group.rotation.y += 0.002
+    group.rotation.x += 0.002
+  }
+  renderer.value.render(scene, camera)
+  controls.value?.update()
+}
 
-			addSphereToScene() {
-				const vector = new Vector3()
+function addOpacity() {
+  for (const obj of objects.value) {
+    obj.element.style.opacity
+      = (Number.parseInt(obj.element.style.zIndex || '1') - 1) / (objects.value.length - 1)
+  }
+}
 
-				// provides a extra depth effect as in THREE.Fog
-				const fog = document.createElement("div")
-				fog.className = "fog"
-				const fogObject = new CSS2DObject(fog)
-				this.scene.add(fogObject)
+function handleResize() {
+  if (!container.value)
+    return
+  const width = container.value.clientWidth
+  const height = container.value.clientHeight
+  camera.aspect = width / height
+  camera.updateProjectionMatrix()
+  renderer.value.setSize(width, height)
+  controls.value?.handleResize()
+}
 
-				for (let i = 0; i < this.skills.length; i++) {
-					// Create a wrapper element
-					const iconWrapper = document.createElement("div")
-					iconWrapper.className = "iconWrapper"
+onMounted(() => {
+  const el = container.value
+  if (!el)
+    return
+  renderer.value = new CSS2DRenderer()
+  renderer.value.setSize(el.clientWidth, el.clientHeight)
+  el.appendChild(renderer.value.domElement)
 
-					// Create and add icon as an image to the element
-					const img = document.createElement("img")
-					img.className = "icon"
-					img.src = "https://unpkg.com/simple-icons@9.1.0/icons/" + this.skills[i].slug + ".svg"
-					img.alt = this.skills[i].name
-					img.draggable = false
+  camera.position.z = 2000
+  scene.add(group)
+  controls.value = new TrackballControls(camera, renderer.value.domElement)
+  controls.value.rotateSpeed = 0.5
+  controls.value.noPan = true
+  controls.value.noZoom = true
 
-					// color-primary - #808dad
-					img.style.filter =
-						"invert(64%) sepia(6%) saturate(1740%) hue-rotate(185deg) brightness(87%) contrast(83%)"
+  addSphereToScene()
+  animate()
+  window.addEventListener('resize', handleResize)
+})
 
-					// color-accent - #eb4a4a
-					// img.style.filter =
-					// 	"invert(42%) sepia(11%) saturate(6555%) hue-rotate(326deg) brightness(95%) contrast(93%)"
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', handleResize)
+})
 
-					const label = document.createElement("p")
-					label.className = "label whitespace-nowrap"
-					label.innerText = this.skills[i].name
-
-					iconWrapper.appendChild(img)
-					iconWrapper.appendChild(label)
-
-					const objectCSS = new CSS2DObject(iconWrapper)
-
-					const phi = Math.acos(-1 + (2 * i) / this.skills.length)
-					const theta = Math.sqrt(this.skills.length * Math.PI) * phi
-					objectCSS.position.setFromSphericalCoords(500, phi, theta)
-					vector.copy(objectCSS.position).multiplyScalar(2)
-
-					// collect final objects to manipulate opacity later
-					this.objects.push(objectCSS)
-					this.group.add(objectCSS)
-				}
-			},
-
-			animate() {
-				requestAnimationFrame(this.animate)
-				this.addOpacity()
-				if (!this.hasInteraction) {
-					this.group.rotation.y += 0.004
-					this.group.rotation.x += 0.004
-				}
-				this.render()
-				this.controls.update()
-			},
-
-			addOpacity() {
-				for (let i = 0; i < this.objects.length; i++) {
-					this.objects[i].element.style.opacity =
-						(this.objects[i].element.style.zIndex - 1) / (this.objects.length - 1)
-				}
-			},
-
-			render() {
-				this.renderer.render(this.scene, this.camera)
-			},
-
-			windowResizeHandler() {
-				this.camera.aspect =
-					this.container.parentElement.clientWidth / this.container.parentElement.clientHeight
-				this.camera.updateProjectionMatrix()
-				this.renderer.setSize(
-					this.container.parentElement.clientWidth,
-					this.container.parentElement.clientHeight
-				)
-				this.controls.handleResize()
-				this.render()
-			},
-			handleInteraction(e) {
-				if (!e) return
-				if (e.type == "pointerdown") {
-					this.hasInteraction = true
-				}
-				if (e.type == "pointerup") {
-					this.hasInteraction = false
-				}
-			},
-		},
-		unmounted() {
-			window.removeEventListener("resize", this.windowResizeHandler)
-		},
-	}
+watch(isDark, () => {
+  nextTick(() => {
+    applyThemeToScene()
+  })
+})
 </script>
 
-<style>
-	.wrapper {
-		aspect-ratio: 1/1;
-		width: 80vmin;
-		height: 80vmin;
-		max-width: 576px;
-		max-height: 576px;
-		margin: auto;
-		flex: 0 1 auto;
-	}
-	.fog {
-		background: #0e16301a;
-		width: 100%;
-		height: 100%;
-	}
-	.iconWrapper {
-		width: 50px;
-		height: 50px;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		padding: 5px;
-		border-radius: 50%;
-	}
-	.icon {
-		user-select: none;
-	}
-	.label {
-		user-select: none;
-		color: #fff;
-	}
-	@media screen and (max-width: 768px) {
-		.icon {
-			width: 25px;
-			height: 25px;
-		}
-		.label {
-			font-size: 0.6rem;
-		}
-	}
-	@media screen and (min-width: 768px) {
-		.icon {
-			width: 50px;
-			height: 50px;
-		}
-		.label {
-			font-size: 0.8rem;
-		}
-	}
-</style>
+<template>
+  <div
+    ref="container" class="relative overflow-hidden aspect-square w-4/5 max-w-144 mx-auto"
+    @pointerdown="handleInteraction"
+    @pointerup="handleInteraction"
+  />
+</template>
