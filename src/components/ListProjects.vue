@@ -13,13 +13,17 @@ function slug(name) {
     </p>
     <div class="prose pb5 mx-auto mt10 text-center">
       <div flex="~ gap-2 justify-center">
-        <Button
+        <a
           href="https://github.com/venkivijay"
-          icon="i-ph-github-logo-duotone group-hover:i-ph-github-logo-fill"
-          text="GitHub"
           target="_blank"
-          variant="blue"
-        />
+          class="group btn-blue inline-block"
+        >
+          <div
+            i-ph-github-logo-duotone
+            group-hover="i-ph-github-logo-fill text-blue"
+          />
+          GitHub
+        </a>
       </div>
       <hr>
     </div>
