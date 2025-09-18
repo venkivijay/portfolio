@@ -1,50 +1,26 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Venki Vijay | Portfolio</title>
-		<meta name="title" content="Venki Vijay | Portfolio" />
-		<meta
-			name="description"
-			content="Full-stack developer specialized in building quality web applications using the latest technologies like Vue, Firebase & MEVN with passion!"
-		/>
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content="https://venkivijay.com/" />
-		<meta property="og:title" content="Venki Vijay | Portfolio" />
-		<meta
-			property="og:description"
-			content="Full-stack developer specialized in building quality web applications using the latest technologies like Vue, Firebase & MEVN with passion!"
-		/>
-		<meta property="og:image" content="https://cdn.statically.io/gh/venkivijay/cdn-assets/main/portfolio.png" />
-		<meta property="twitter:card" content="summary_large_image" />
-		<meta property="twitter:url" content="https://venkivijay.com/" />
-		<meta property="twitter:title" content="Venki Vijay | Portfolio" />
-		<meta
-			property="twitter:description"
-			content="Full-stack developer specialized in building quality web applications using the latest technologies like Vue, Firebase & MEVN with passion!"
-		/>
-		<meta
-			property="twitter:image"
-			content="https://cdn.statically.io/gh/venkivijay/cdn-assets/main/portfolio.png"
-		/>
-	</head>
-	<body>
-		<noscript>
-			<strong>
-				I'm sorry but this site doesn't work properly without JavaScript enabled. Please enable it to continue.
-			</strong>
-		</noscript>
-		<!-- Dummy form for netlify bots -->
-		<form name="leads" data-netlify="true" data-netlify-honeypot="bot-field" hidden aria-hidden="true">
-			<input type="hidden" name="form-name" value="leads" />
-			<input type="text" name="name" />
-			<input type="email" name="email" />
-			<input type="text" name="subject" />
-			<textarea type="text" name="message"></textarea>
-		</form>
-		<div id="app"></div>
-		<script type="module" src="/src/main.js"></script>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="author" content="Venki Vijay" />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title="Venki Vijay's Blog" href="/feed.xml" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <title>Venki Vijay</title>
+    <script>
+      ;(function () {
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        const setting = localStorage.getItem('vueuse-color-scheme') || 'auto'
+        if (setting === 'dark' || (prefersDark && setting !== 'light'))
+          document.documentElement.classList.toggle('dark', true)
+      })()
+    </script>
+  </head>
+  <body class="font-sans text-gray-700 dark:text-gray-200 relative">
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
 </html>
