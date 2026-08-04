@@ -98,9 +98,12 @@ export default defineConfig({
         })
 
         md.use(MarkdownItMagicLink, {
+          // imageUrl is always set explicitly: without it the plugin falls back
+          // to favicon.yandex.net, which leaks visitors to a third party and
+          // blocks the load event on the pages these links appear on.
           linksMap: {
-            'Protium': 'https://protium.co.in',
-            'Social Links': { link: 'https://links.venkivijay.com', imageUrl: 'https://links.venkivijay.com/favicon.ico' },
+            'Protium': { link: 'https://protium.co.in', imageUrl: '/icons/protium.jpg' },
+            'Social Links': { link: 'https://links.venkivijay.com', imageUrl: '/icons/links.ico' },
           },
           imageOverrides: [],
         })
@@ -146,5 +149,11 @@ export default defineConfig({
   },
   ssgOptions: {
     formatting: 'minify',
+    // Drop parameterised routes (they have no concrete URL to prerender) and
+    // emit the catch-all as dist/404.html so Netlify can serve a real 404
+    // instead of rewriting unknown paths to the homepage with a 200.
+    includedRoutes(paths) {
+      return [...paths.filter(path => !/[:*]/.test(path)), '/404']
+    },
   },
 })

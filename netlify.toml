@@ -1,4 +1,8 @@
+# Every route is prerendered to a static file, so no SPA rewrite is needed.
+# This rule only fires when nothing matched, and returns a real 404 status —
+# rewriting unknown paths to index.html with a 200 made every junk URL look
+# like a duplicate of the homepage to search engines.
 [[redirects]]
 from = "/*"
-to = "/index.html"
-status = 200
+to = "/404.html"
+status = 404
