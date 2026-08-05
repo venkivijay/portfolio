@@ -10,6 +10,22 @@ import { site } from '../src/site.config.js'
  * carries the canonical URL and robots directive the app decided on. Deriving
  * it any other way lets the sitemap drift from what crawlers are told.
  */
+const ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', apos: '\'', nbsp: ' ' }
+
+/**
+ * llms.txt is plain text, so anything scraped out of the HTML has to come back
+ * out of its escaped form — nothing downstream decodes it, and an LLM reading
+ * the file would otherwise see a literal `&amp;` in every title with an "&".
+ */
+function decode(value) {
+  if (!value)
+    return value
+  return value
+    .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCodePoint(Number.parseInt(code, 16)))
+    .replace(/&(\w+);/g, (match, name) => ENTITIES[name] ?? match)
+}
+
 function extract(html) {
   const meta = name => html.match(new RegExp(`<meta[^>]+(?:name|property)="${name}"[^>]+content="([^"]*)"`))?.[1]
     ?? html.match(new RegExp(`<meta[^>]+content="([^"]*)"[^>]+(?:name|property)="${name}"`))?.[1]
@@ -17,8 +33,8 @@ function extract(html) {
   return {
     url: html.match(/<link[^>]+rel="canonical"[^>]+href="([^"]*)"/)?.[1],
     robots: meta('robots') ?? '',
-    title: html.match(/<title>(.*?)<\/title>/s)?.[1],
-    description: meta('description'),
+    title: decode(html.match(/<title>(.*?)<\/title>/s)?.[1]),
+    description: decode(meta('description')),
     published: meta('article:published_time'),
     modified: meta('article:modified_time'),
   }

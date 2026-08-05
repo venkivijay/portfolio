@@ -4,7 +4,7 @@ import { Feed } from 'feed'
 import fs from 'fs-extra'
 import matter from 'gray-matter'
 import MarkdownIt from 'markdown-it'
-import { canonicalUrl, DEFAULT_LOCALE, LOCALES, parseDate, resolveLocale, site } from '../src/site.config.js'
+import { absoluteUrl, canonicalUrl, LOCALES, parseDate, resolveLocale, site } from '../src/site.config.js'
 
 const AUTHOR = {
   name: site.name,
@@ -23,9 +23,11 @@ async function run() {
 }
 
 async function readPosts() {
-  // Only `/index.md` is the listing page. Matching the substring "index"
-  // anywhere in the path silently dropped posts like `indexing-logs.md`.
-  const files = (await fg('pages/posts/*.md')).filter(file => !file.endsWith('/index.md'))
+  // Recursive, because the router and the sitemap both treat pages/posts/**
+  // as posts; a flat glob silently dropped anything under posts/2026/.
+  // Only `/index.md` is the listing page — matching the substring "index"
+  // anywhere in the path used to drop posts like `indexing-logs.md`.
+  const files = (await fg('pages/posts/**/*.md')).filter(file => !file.endsWith('/index.md'))
 
   const posts = await Promise.all(files.map(async (file) => {
     const { data, content } = matter(await fs.readFile(file, 'utf-8'))
@@ -47,7 +49,7 @@ async function readPosts() {
       .replace(/src="\//g, `src="${site.url}/`)
       .replace(/href="\//g, `href="${site.url}/`)
 
-    const image = data.image?.startsWith('/') ? site.url + data.image : data.image
+    const image = absoluteUrl(data.image)
 
     return {
       ...data,
@@ -70,7 +72,7 @@ async function buildBlogRSS() {
 
   // The default feed carries every language so nothing is ever silently
   // missing from it; per-language feeds exist for readers who want just one.
-  await writeFeed('feed', posts, DEFAULT_LOCALE)
+  await writeFeed('feed', posts, null)
 
   // Written for every configured locale even when it has no posts yet:
   // index.html advertises these URLs for autodiscovery, and pointing a feed
@@ -82,14 +84,17 @@ async function buildBlogRSS() {
 }
 
 async function writeFeed(name, items, lang) {
-  const suffix = name === 'feed' ? '' : ` (${LOCALES[lang].label})`
+  // The combined feed carries every language, so it asserts none.
+  const suffix = lang ? ` (${LOCALES[lang].label})` : ''
 
   const feed = new Feed({
     title: `${site.name}${suffix}`,
     description: `${site.name}'s Blog${suffix}`,
-    id: `${site.url}/`,
+    // Atom requires a feed id unique to that feed; sharing one lets
+    // aggregators collapse the three into a single subscription.
+    id: `${site.url}/${name}.xml`,
     link: `${site.url}/`,
-    language: lang,
+    ...(lang ? { language: lang } : {}),
     copyright: `CC BY-NC-SA 4.0 2021-${new Date().getFullYear()} © ${site.name}`,
     feedLinks: {
       json: `${site.url}/${name}.json`,

@@ -1,12 +1,14 @@
 <script setup>
 import { useHead } from '@unhead/vue'
-import { canonicalUrl, LOCALES, parseDate, resolveLocale, site } from '~/site.config'
+import { absoluteUrl, canonicalUrl, LOCALES, parseDate, resolveLocale, site } from '~/site.config'
 
 const route = useRoute()
 
 const frontmatter = computed(() => route.meta?.frontmatter ?? {})
 const canonical = computed(() => canonicalUrl(route.path))
-const ogImage = computed(() => frontmatter.value.image ?? site.image)
+// Absolutised: a post setting `image: /card.png` would otherwise ship a
+// relative og:image, which renders no preview on LinkedIn, X or Slack.
+const ogImage = computed(() => absoluteUrl(frontmatter.value.image) ?? site.image)
 
 // Anything with a date is a post; everything else is a plain page.
 const published = computed(() => parseDate(frontmatter.value.date))
@@ -119,8 +121,10 @@ useHead(() => ({
     { property: 'og:type', content: isPost.value ? 'article' : 'website' },
     { property: 'og:site_name', content: site.name },
     { property: 'og:locale', content: ogLocale.value },
-    { property: 'og:image', content: ogImage.value },
-    { name: 'twitter:image', content: ogImage.value },
+    // Outrank the raw frontmatter copy that unplugin-vue-markdown emits from
+    // the page itself, which is not absolutised.
+    { property: 'og:image', content: ogImage.value, tagPriority: 'high' },
+    { name: 'twitter:image', content: ogImage.value, tagPriority: 'high' },
     { name: 'twitter:card', content: 'summary_large_image' },
     ...(isPost.value
       ? [

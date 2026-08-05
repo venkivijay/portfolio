@@ -23,7 +23,8 @@ type: blog
 duration: 8min
 
 # Optional. Social card for this post; defaults to the site-wide og.png.
-image: https://venkivijay.com/og.png
+# Root-relative or absolute both work — it is absolutised for og:image.
+image: /og.png
 
 # Optional. Set while writing: renders a draft banner, and keeps the post out
 # of the listing, the sitemap, the feeds and the search index.

@@ -156,7 +156,7 @@ export default defineConfig({
     // Drop parameterised routes (they have no concrete URL to prerender) and
     // emit the catch-all as dist/404.html so Netlify can serve a real 404
     // instead of rewriting unknown paths to the homepage with a 200.
-    includedRoutes(paths) {
+    includedRoutes(paths, routes) {
       const dynamic = paths.filter(path => /[:*]/.test(path) && path !== '/:404(.*)')
       if (dynamic.length) {
         // There is no SPA fallback any more, so an unrendered route is a hard
@@ -167,7 +167,26 @@ export default defineConfig({
           + '\n  Enumerate their concrete paths in ssgOptions.includedRoutes.\n',
         )
       }
-      return [...paths.filter(path => !/[:*]/.test(path)), '/404']
+
+      // A directory under pages/ (say posts/2026/) becomes a route record with
+      // no component. Rendering it falls through to the catch-all and writes a
+      // "page not found" body to a file the server then returns with a 200 —
+      // a soft 404. Only render paths that resolve to an actual component.
+      const renderable = new Set()
+      const walk = (records, prefix) => {
+        for (const record of records) {
+          const path = record.path === ''
+            ? (prefix || '/')
+            : (record.path.startsWith('/') ? record.path : `${prefix}/${record.path}`)
+          if (record.component)
+            renderable.add(path)
+          if (record.children?.length)
+            walk(record.children, path === '/' ? '' : path)
+        }
+      }
+      walk(routes, '')
+
+      return [...paths.filter(path => !/[:*]/.test(path) && renderable.has(path)), '/404']
     },
   },
 })

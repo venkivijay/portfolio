@@ -51,6 +51,16 @@ export function canonicalUrl(path) {
 }
 
 /**
+ * Absolutise a possibly root-relative asset path. Open Graph and Twitter both
+ * require absolute URLs, and a relative one means no preview card at all.
+ */
+export function absoluteUrl(url) {
+  if (!url)
+    return url
+  return url.startsWith('/') ? `${site.url}${url}` : url
+}
+
+/**
  * Parse a frontmatter date, which reaches us as a Date from gray-matter on the
  * server and as an ISO string from serialised route meta in the browser.
  * Returns null rather than throwing on garbage input.
