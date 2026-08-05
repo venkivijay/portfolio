@@ -140,6 +140,14 @@ export default defineConfig({
       { find: '~/', replacement: `${resolve(__dirname, 'src')}/` },
     ],
   },
+  build: {
+    // Keep component styles in the single stylesheet that gets inlined above.
+    // Split per-route CSS is fetched by the chunk loader after hydration, so
+    // it lands after first paint — and a late hiding rule is a visible bug:
+    // ListPosts' scoped rule suppresses the prose bullet on each post, so
+    // every entry in the list would show a bullet and then lose it.
+    cssCodeSplit: false,
+  },
   optimizeDeps: {
     include: [
       'vue',
@@ -153,19 +161,29 @@ export default defineConfig({
   },
   ssgOptions: {
     formatting: 'minify',
-    // Inline the above-the-fold CSS so the first paint is styled. The full
-    // stylesheet is render-blocking, and Firefox paints unstyled content
-    // rather than stay blank when it is slow — which is the flash of
-    // unstyled content seen on a cold load.
+    // Inline the whole stylesheet into every page rather than extracting a
+    // critical subset. Firefox paints unstyled content instead of staying
+    // blank when a render-blocking stylesheet is slow (its paint delay is 5ms),
+    // so the CSS has to be in the document at first paint.
+    //
+    // Extracting only the critical part does that too, but it decides what is
+    // critical by matching selectors against the prerendered HTML — which
+    // cannot see `.dark` (applied at runtime from localStorage), cannot see
+    // below the fold (`.sr-only`, where a dropped hiding rule means 43 skills
+    // render as body copy), and cannot parse `:has()`. Each omission needed a
+    // hand-written patch, and the duplicate `@keyframes` it left behind
+    // restarted the entrance animation when the external sheet arrived,
+    // because an animation's identity is tied to the keyframes rule object.
+    //
+    // Inlining everything removes the second stylesheet entirely, so there is
+    // no partial cascade to get wrong. It is also smaller: the critical build
+    // shipped those rules twice, in two requests.
+    //
+    // `Infinity` rather than a byte count on purpose — a number would silently
+    // fall back to critical-CSS mode, and all of the above would return, the
+    // first time the stylesheet grew past it.
     beastiesOptions: {
-      // The @font-face rules are inlined, so the browser already fetches the
-      // subsets it needs from unicode-range. Preloading as well would pull
-      // all 21 subsets (Cyrillic, Vietnamese, Greek...) on every page.
-      preloadFonts: false,
-      // Leave the hand-written theme <style> in index.html alone. Pruning it
-      // against the prerendered markup strips the `.dark` rules — the class
-      // is only added at runtime — and dark-mode visitors get a white flash.
-      reduceInlineStyles: false,
+      inlineThreshold: Number.POSITIVE_INFINITY,
     },
     // Drop parameterised routes (they have no concrete URL to prerender) and
     // emit the catch-all as dist/404.html so Netlify can serve a real 404
