@@ -83,7 +83,8 @@ const { y: scroll } = useWindowScroll()
   margin-bottom: 0;
 }
 
-.nav a {
+.nav a,
+.nav button {
   cursor: pointer;
   text-decoration: none;
   color: inherit;
@@ -92,7 +93,8 @@ const { y: scroll } = useWindowScroll()
   outline: none;
 }
 
-.nav a:hover {
+.nav a:hover,
+.nav button:hover {
   opacity: 1;
   text-decoration-color: inherit;
 }

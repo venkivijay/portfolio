@@ -30,15 +30,16 @@ export default defineConfig({
       // logs: true,
       extendRoute(route) {
         const path = route.components.get('default')
-        if (!path)
+        if (!path || !path.endsWith('.md'))
           return
 
-        if (!path.includes('projects.md') && path.endsWith('.md')) {
-          const { data } = matter(fs.readFileSync(path, 'utf-8'))
-          route.addToMeta({
-            frontmatter: data,
-          })
-        }
+        const { data } = matter(fs.readFileSync(path, 'utf-8'))
+        // `projects` is a large content blob the page renders from its own
+        // frontmatter, so it is stripped rather than shipped in route meta —
+        // but the page still needs its title/description there for the
+        // canonical, robots and JSON-LD tags built in App.vue.
+        const { projects: _projects, ...frontmatter } = data
+        route.addToMeta({ frontmatter })
       },
     }),
     Vue({
@@ -79,7 +80,10 @@ export default defineConfig({
           slugify,
           permalink: anchor.permalink.linkInsideHeader({
             symbol: '#',
-            renderAttrs: () => ({ 'aria-hidden': 'true' }),
+            // aria-hidden on a focusable element is a WCAG violation: keyboard
+            // users land on an anchor that screen readers have been told to
+            // ignore. Take it out of the tab order instead.
+            renderAttrs: () => ({ 'aria-hidden': 'true', 'tabindex': '-1' }),
           }),
         })
 
