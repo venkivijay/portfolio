@@ -48,6 +48,21 @@
         --fg-deep: #ddd;
         --fg-deeper: #fff;
       }
+      /* The critical CSS only covers the initial viewport, so rules for
+         anything below the fold are left out — including this one. It is the
+         text alternative for the 3D skill cloud, so without it the whole
+         43-item list renders as visible body copy until the stylesheet loads. */
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+      }
     </style>
     <script>
       ;(function () {

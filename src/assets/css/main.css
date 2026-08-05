@@ -86,14 +86,22 @@ html:not(.dark) [img-dark] {
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  /* The :has() exclusion lives in its own rule below rather than inline here.
+     The critical-CSS extractor cannot parse :has() and drops the whole
+     selector group, which left the page unanimated on first paint and then
+     blanked it to replay the animation once the full stylesheet arrived. */
   html:not(.no-sliding) [slide-enter],
   html:not(.no-sliding) .slide-enter,
-  html:not(.no-sliding) .slide-enter-content > *:not(:has(.table-of-contents)) {
+  html:not(.no-sliding) .slide-enter-content > * {
     --enter-stage: 0;
     --enter-step: 90ms;
     --enter-initial: 0ms;
     animation: slide-enter 1s both 1;
     animation-delay: calc(var(--enter-initial) + var(--enter-stage) * var(--enter-step));
+  }
+
+  html:not(.no-sliding) .slide-enter-content > *:has(.table-of-contents) {
+    animation: none;
   }
 
   .slide-enter-content > *:nth-child(1) {
