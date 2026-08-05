@@ -72,11 +72,11 @@ async function buildBlogRSS() {
   // missing from it; per-language feeds exist for readers who want just one.
   await writeFeed('feed', posts, DEFAULT_LOCALE)
 
-  for (const lang of Object.keys(LOCALES)) {
-    const localePosts = posts.filter(post => post.lang === lang)
-    if (localePosts.length)
-      await writeFeed(`feed.${lang}`, localePosts, lang)
-  }
+  // Written for every configured locale even when it has no posts yet:
+  // index.html advertises these URLs for autodiscovery, and pointing a feed
+  // reader at a 404 is worse than handing it an empty feed that fills in.
+  for (const lang of Object.keys(LOCALES))
+    await writeFeed(`feed.${lang}`, posts.filter(post => post.lang === lang), lang)
 
   console.log(`[rss] ${posts.length} posts -> feed.xml${posts.length ? ` (${[...new Set(posts.map(p => p.lang))].join(', ')})` : ''}`)
 }
