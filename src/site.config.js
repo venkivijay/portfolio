@@ -56,8 +56,10 @@ export function canonicalUrl(path) {
  */
 export function absoluteUrl(url) {
   if (!url)
+    return undefined
+  if (/^[a-z][\w+.-]*:/i.test(url))
     return url
-  return url.startsWith('/') ? `${site.url}${url}` : url
+  return `${site.url}/${url.replace(/^\/+/, '')}`
 }
 
 /**

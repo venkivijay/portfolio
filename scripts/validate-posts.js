@@ -13,15 +13,15 @@ import { LOCALES, parseDate } from '../src/site.config.js'
 const KNOWN_TYPES = ['blog', 'note']
 
 async function run() {
-  const files = (await fg('pages/posts/**/*.md')).filter(file => !file.endsWith('/index.md'))
+  const files = (await fg('pages/posts/**/*.md')).filter(file => file !== 'pages/posts/index.md')
 
   const errors = []
   const warnings = []
 
   for (const file of files) {
-    let data
+    let data, content, raw
     try {
-      ({ data } = matter(await fs.readFile(file, 'utf-8')))
+      ({ data, content, matter: raw } = matter(await fs.readFile(file, 'utf-8')))
     }
     catch (error) {
       // Unquoted colons are the most common frontmatter mistake, and this is
@@ -35,14 +35,28 @@ async function run() {
     else if (/<\/?script/i.test(String(data.title)))
       errors.push(`${file}: \`title\` contains a script tag, which breaks the generated component and the JSON-LD.`)
 
-    // `date: 2026` is valid YAML (the integer 2026) and a valid Date
-    // (1970-01-01T00:00:02.026Z), so parseability alone is not enough.
-    const isCalendarDate = data.date instanceof Date || /^\d{4}-\d{2}-\d{2}/.test(String(data.date))
+    // Two traps here. `date: 2026` is valid YAML (the integer 2026) and a
+    // valid Date (1970-01-01T00:00:02.026Z). And YAML builds dates with
+    // Date.UTC(), which silently rolls over out-of-range parts, so a typo
+    // like 2026-09-31 becomes 2026-10-01 everywhere without complaint.
+    // Round-tripping the parsed date back to the written text catches both.
+    const written = raw?.match(/^date:(.*)$/m)?.[1].trim()
+    const parsed = parseDate(data.date)
     if (!data.date) {
       errors.push(`${file}: missing \`date\` — without it the post renders but never appears in /posts, the feed or the sitemap.`)
     }
-    else if (!isCalendarDate || !parseDate(data.date)) {
-      errors.push(`${file}: \`date: ${data.date}\` is not a valid date. Use an unquoted YYYY-MM-DD, e.g. \`date: 2026-08-05\`.`)
+    else if (!parsed || !written || parsed.toISOString().slice(0, 10) !== written) {
+      errors.push(`${file}: \`date: ${written ?? data.date}\` is not a valid calendar date${parsed && written ? ` (it resolves to ${parsed.toISOString().slice(0, 10)})` : ''}. Use an unquoted YYYY-MM-DD, e.g. \`date: 2026-08-05\`.`)
+    }
+
+    if ('draft' in data && typeof data.draft !== 'boolean')
+      errors.push(`${file}: \`draft: ${data.draft}\` must be unquoted true or false — any quoted value is truthy and would silently unpublish the post.`)
+
+    // Markdown image paths become build-time imports, and an unresolved one
+    // fails the build with a Rollup stack trace that names no line.
+    for (const [, src] of content.matchAll(/!\[[^\]]*\]\((\/[^)\s]+)\)/g)) {
+      if (!await fs.pathExists(`public${src}`))
+        errors.push(`${file}: image \`${src}\` does not exist at \`public${src}\` — the build fails on the unresolved import. Put the file there, or remove the reference.`)
     }
 
     if (data.lang && !LOCALES[data.lang])

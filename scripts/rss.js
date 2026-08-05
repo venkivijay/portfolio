@@ -27,7 +27,7 @@ async function readPosts() {
   // as posts; a flat glob silently dropped anything under posts/2026/.
   // Only `/index.md` is the listing page — matching the substring "index"
   // anywhere in the path used to drop posts like `indexing-logs.md`.
-  const files = (await fg('pages/posts/**/*.md')).filter(file => !file.endsWith('/index.md'))
+  const files = (await fg('pages/posts/**/*.md')).filter(file => file !== 'pages/posts/index.md')
 
   const posts = await Promise.all(files.map(async (file) => {
     const { data, content } = matter(await fs.readFile(file, 'utf-8'))

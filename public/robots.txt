@@ -1,38 +1,12 @@
+# Everything is open to everyone, including AI crawlers and assistants
+# (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Applebot-Extended and
+# the rest) — reach is the point.
+#
+# They were previously listed in their own groups, which was a no-op beside
+# this one and an active trap: per RFC 9309 a crawler that matches a specific
+# group ignores `*` entirely, so any future Disallow added here would not
+# have applied to them.
 User-agent: *
-Allow: /
-
-# Assistants and AI search crawlers are welcome — reach is the point.
-User-agent: GPTBot
-Allow: /
-
-User-agent: OAI-SearchBot
-Allow: /
-
-User-agent: ChatGPT-User
-Allow: /
-
-User-agent: ClaudeBot
-Allow: /
-
-User-agent: Claude-User
-Allow: /
-
-User-agent: Claude-SearchBot
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: Perplexity-User
-Allow: /
-
-User-agent: Google-Extended
-Allow: /
-
-User-agent: Applebot-Extended
-Allow: /
-
-User-agent: Bingbot
 Allow: /
 
 Sitemap: https://venkivijay.com/sitemap.xml

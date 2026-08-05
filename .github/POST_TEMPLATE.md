@@ -39,9 +39,14 @@ not the setup.
 
 ## A heading
 
-Body copy. Images use absolute-from-root paths so they work in feed readers:
+Body copy. Put image files in `public/images/` and reference them from the
+site root, so they resolve at build time and stay absolute in feed readers:
 
-![Architecture diagram](/images/ecs-pipeline.png)
+![Architecture diagram](/images/example.png)
+
+(That file does not exist yet — drop yours into `public/images/` and rename
+the reference, or delete these two lines. `npm run validate` will tell you if
+a referenced image is missing, rather than letting the build fail obscurely.)
 
 ```ts
 // Code blocks get syntax highlighting via Shiki.

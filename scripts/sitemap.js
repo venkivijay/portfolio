@@ -114,6 +114,13 @@ async function buildLlmsTxt(pages) {
 
 async function run() {
   const pages = await collectPages()
+
+  // This script recovers its data by scraping the rendered HTML, so a change
+  // in how those tags are emitted would yield zero pages and write a valid but
+  // empty sitemap without failing. Never ship that silently.
+  if (!pages.length)
+    throw new Error('[sitemap] no indexable pages found in dist/ — the extractor is not matching the rendered markup.')
+
   await fs.ensureDir('dist')
   await fs.writeFile('dist/sitemap.xml', buildSitemap(pages), 'utf-8')
   await fs.writeFile('dist/llms.txt', await buildLlmsTxt(pages), 'utf-8')

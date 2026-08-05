@@ -51,7 +51,11 @@ export function toggleDark(event) {
 }
 
 export function formatDate(d, onlyDate = true) {
-  const date = dayjs(d)
+  // Frontmatter dates parse as UTC midnight. Formatting them in the viewer's
+  // local zone shows the previous day for anyone west of UTC, contradicting
+  // datePublished, the feed pubDate and the sitemap lastmod, which are all UTC.
+  const utc = new Date(d)
+  const date = dayjs(new Date(utc.getTime() + utc.getTimezoneOffset() * 60000))
   if (onlyDate || date.year() === dayjs().year())
     return date.format('MMM D')
   return date.format('MMM D, YYYY')
