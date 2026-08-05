@@ -42,6 +42,11 @@ export function toggleDark(event) {
         {
           duration: 400,
           easing: 'ease-out',
+          // Without this the clip-path snaps back to unclipped the moment the
+          // animation ends, a frame or two before the view transition tears
+          // the snapshot down. Going light -> dark that repaints the whole old
+          // light layer at full size: a white flash at the end of the sweep.
+          fill: 'forwards',
           pseudoElement: isDark.value
             ? '::view-transition-old(root)'
             : '::view-transition-new(root)',
