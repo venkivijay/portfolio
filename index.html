@@ -14,6 +14,41 @@
     <meta name="theme-color" content="#050505" media="(prefers-color-scheme: dark)" />
     <meta name="msapplication-TileColor" content="#ffffff" />
     <title>Venki Vijay</title>
+    <!--
+      Critical theme colours, inlined by hand.
+
+      The build inlines above-the-fold CSS so the first paint is styled, but it
+      extracts those rules by matching selectors against the prerendered HTML —
+      which never carries the `dark` class, since that is applied by the script
+      below from localStorage. Every `.dark` rule is therefore dropped from the
+      critical CSS, and a dark-mode visitor got a full white flash before the
+      real stylesheet arrived.
+
+      These few declarations out-specify the utility classes they correct
+      (`html.dark body` beats `.text-gray-700`), so ordering does not matter.
+    -->
+    <style>
+      :root {
+        --c-bg: #fff;
+      }
+      html.dark {
+        --c-bg: #050505;
+      }
+      html {
+        background-color: var(--c-bg);
+      }
+      html.dark body {
+        color: #e5e7eb;
+      }
+      /* Mirrors the block in markdown.css; without it headings and bold text
+         paint near-black on the dark background until the stylesheet lands. */
+      html.dark .prose {
+        --fg-light: #888;
+        --fg: #bbb;
+        --fg-deep: #ddd;
+        --fg-deeper: #fff;
+      }
+    </style>
     <script>
       ;(function () {
         const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches

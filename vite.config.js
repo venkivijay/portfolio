@@ -153,6 +153,20 @@ export default defineConfig({
   },
   ssgOptions: {
     formatting: 'minify',
+    // Inline the above-the-fold CSS so the first paint is styled. The full
+    // stylesheet is render-blocking, and Firefox paints unstyled content
+    // rather than stay blank when it is slow — which is the flash of
+    // unstyled content seen on a cold load.
+    beastiesOptions: {
+      // The @font-face rules are inlined, so the browser already fetches the
+      // subsets it needs from unicode-range. Preloading as well would pull
+      // all 21 subsets (Cyrillic, Vietnamese, Greek...) on every page.
+      preloadFonts: false,
+      // Leave the hand-written theme <style> in index.html alone. Pruning it
+      // against the prerendered markup strips the `.dark` rules — the class
+      // is only added at runtime — and dark-mode visitors get a white flash.
+      reduceInlineStyles: false,
+    },
     // Drop parameterised routes (they have no concrete URL to prerender) and
     // emit the catch-all as dist/404.html so Netlify can serve a real 404
     // instead of rewriting unknown paths to the homepage with a 200.
