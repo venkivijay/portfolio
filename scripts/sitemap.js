@@ -1,49 +1,54 @@
 import fg from 'fast-glob'
 import fs from 'fs-extra'
 import matter from 'gray-matter'
-import { canonicalUrl, site } from '../src/site.config.js'
+import { site } from '../src/site.config.js'
 
 /**
- * Derive the router path for a page file, mirroring unplugin-vue-router's
- * file-based routing: pages/index.md -> /, pages/posts/index.md -> /posts.
+ * The sitemap is derived from the prerendered HTML rather than from the page
+ * filenames: the rendered pages are the only accurate record of what actually
+ * ships, they cover `.vue` pages and custom paths too, and each one already
+ * carries the canonical URL and robots directive the app decided on. Deriving
+ * it any other way lets the sitemap drift from what crawlers are told.
  */
-function toRoutePath(file) {
-  const path = file
-    .replace(/^pages/, '')
-    .replace(/\.md$/, '')
-    .replace(/\/index$/, '')
-  return path || '/'
+function extract(html) {
+  const meta = name => html.match(new RegExp(`<meta[^>]+(?:name|property)="${name}"[^>]+content="([^"]*)"`))?.[1]
+    ?? html.match(new RegExp(`<meta[^>]+content="([^"]*)"[^>]+(?:name|property)="${name}"`))?.[1]
+
+  return {
+    url: html.match(/<link[^>]+rel="canonical"[^>]+href="([^"]*)"/)?.[1],
+    robots: meta('robots') ?? '',
+    title: html.match(/<title>(.*?)<\/title>/s)?.[1],
+    description: meta('description'),
+    published: meta('article:published_time'),
+    modified: meta('article:modified_time'),
+  }
 }
 
 async function collectPages() {
-  const files = await fg('pages/**/*.md', { ignore: ['**/[[]*'] })
+  const files = await fg('dist/**/*.html')
 
   const pages = await Promise.all(files.map(async (file) => {
-    const { data } = matter(await fs.readFile(file, 'utf-8'))
-    return {
-      path: toRoutePath(file),
-      url: canonicalUrl(toRoutePath(file)),
-      title: data.title ?? site.name,
-      description: data.description ?? '',
-      date: data.date ?? null,
-      noindex: Boolean(data.noindex),
-      draft: Boolean(data.draft),
-      isPost: file.startsWith('pages/posts/') && !file.endsWith('index.md'),
-    }
+    const html = await fs.readFile(file, 'utf-8')
+    return extract(html)
   }))
 
-  // Drafts and noindex pages are deliberately kept out of both artefacts:
-  // a sitemap that lists pages we ask Google not to index is a mixed signal.
+  // A page without a canonical is one the app marked noindex, so it is
+  // excluded here by the same signal rather than by a second, drifting rule.
   return pages
-    .filter(page => !page.noindex && !page.draft)
-    .sort((a, b) => a.path.localeCompare(b.path))
+    .filter(page => page.url && !page.robots.includes('noindex'))
+    .sort((a, b) => {
+      if (a.url === `${site.url}/`)
+        return -1
+      if (b.url === `${site.url}/`)
+        return 1
+      return a.url.localeCompare(b.url)
+    })
 }
 
 function buildSitemap(pages) {
   const urls = pages.map((page) => {
-    const lastmod = page.date
-      ? `\n    <lastmod>${new Date(page.date).toISOString().slice(0, 10)}</lastmod>`
-      : ''
+    const stamp = page.modified ?? page.published
+    const lastmod = stamp ? `\n    <lastmod>${stamp.slice(0, 10)}</lastmod>` : ''
     return `  <url>\n    <loc>${page.url}</loc>${lastmod}\n  </url>`
   }).join('\n')
 
@@ -67,22 +72,22 @@ async function buildLlmsTxt(pages) {
     '',
   ]
 
-  if (skills.length) {
+  if (skills.length)
     lines.push('## Skills', '', skills.join(', '), '')
-  }
 
-  const posts = pages.filter(page => page.isPost)
-  const rest = pages.filter(page => !page.isPost)
+  // Posts are the pages that carry a published date.
+  const posts = pages.filter(page => page.published)
+  const rest = pages.filter(page => !page.published)
 
-  lines.push('## Pages', '')
-  for (const page of rest)
-    lines.push(`- [${page.title}](${page.url})${page.description ? `: ${page.description}` : ''}`)
-  lines.push('')
+  const entry = page => `- [${page.title}](${page.url})${page.description ? `: ${page.description}` : ''}`
+
+  lines.push('## Pages', '', ...rest.map(entry), '')
 
   if (posts.length) {
     lines.push('## Writing', '')
-    for (const page of posts)
-      lines.push(`- [${page.title}](${page.url})${page.description ? `: ${page.description}` : ''}`)
+    lines.push(...posts
+      .sort((a, b) => (b.published ?? '').localeCompare(a.published ?? ''))
+      .map(page => `${entry(page)} (${page.published.slice(0, 10)})`))
     lines.push('')
   }
 

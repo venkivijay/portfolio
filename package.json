@@ -15,7 +15,8 @@
   "bugs": "https://github.com/venkivijay/portfolio/issues",
   "scripts": {
     "dev": "vite --port 3000 --host",
-    "build": "vite-ssg build && node ./scripts/copy-fonts.js && node ./scripts/rss.js && node ./scripts/sitemap.js",
+    "build": "node ./scripts/validate-posts.js && vite-ssg build && node ./scripts/copy-fonts.js && node ./scripts/rss.js && node ./scripts/sitemap.js",
+    "validate": "node ./scripts/validate-posts.js",
     "preview": "vite preview",
     "lint": "eslint",
     "lint:fix": "eslint --fix"

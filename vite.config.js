@@ -157,6 +157,16 @@ export default defineConfig({
     // emit the catch-all as dist/404.html so Netlify can serve a real 404
     // instead of rewriting unknown paths to the homepage with a 200.
     includedRoutes(paths) {
+      const dynamic = paths.filter(path => /[:*]/.test(path) && path !== '/:404(.*)')
+      if (dynamic.length) {
+        // There is no SPA fallback any more, so an unrendered route is a hard
+        // 404 in production. Say so rather than dropping it silently.
+        console.warn(
+          `\n[ssg] ${dynamic.length} dynamic route(s) cannot be prerendered and will 404 in production:\n`
+          + dynamic.map(path => `  - ${path}`).join('\n')
+          + '\n  Enumerate their concrete paths in ssgOptions.includedRoutes.\n',
+        )
+      }
       return [...paths.filter(path => !/[:*]/.test(path)), '/404']
     },
   },

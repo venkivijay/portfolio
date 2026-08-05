@@ -4,13 +4,14 @@ import { Feed } from 'feed'
 import fs from 'fs-extra'
 import matter from 'gray-matter'
 import MarkdownIt from 'markdown-it'
+import { canonicalUrl, DEFAULT_LOCALE, LOCALES, parseDate, resolveLocale, site } from '../src/site.config.js'
 
-const DOMAIN = 'https://venkivijay.com'
 const AUTHOR = {
-  name: 'Venki Vijay',
-  email: 'venkivijay@hotmail.com',
-  link: DOMAIN,
+  name: site.name,
+  email: site.email,
+  link: site.url,
 }
+
 const markdown = MarkdownIt({
   html: true,
   breaks: true,
@@ -21,62 +22,86 @@ async function run() {
   await buildBlogRSS()
 }
 
-async function buildBlogRSS() {
-  const files = await fg('pages/posts/*.md')
+async function readPosts() {
+  // Only `/index.md` is the listing page. Matching the substring "index"
+  // anywhere in the path silently dropped posts like `indexing-logs.md`.
+  const files = (await fg('pages/posts/*.md')).filter(file => !file.endsWith('/index.md'))
 
-  const options = {
-    title: 'Venki Vijay',
-    description: 'Venki Vijay\' Blog',
-    id: 'https://venkivijay.com/',
-    link: 'https://venkivijay.com/',
-    copyright: 'CC BY-NC-SA 4.0 2021 © Venki Vijay',
-    feedLinks: {
-      json: 'https://venkivijay.com/feed.json',
-      atom: 'https://venkivijay.com/feed.atom',
-      rss: 'https://venkivijay.com/feed.xml',
-    },
-  }
-  const posts = (
-    await Promise.all(
-      files.filter(i => !i.includes('index'))
-        .map(async (i) => {
-          const raw = await fs.readFile(i, 'utf-8')
-          const { data, content } = matter(raw)
+  const posts = await Promise.all(files.map(async (file) => {
+    const { data, content } = matter(await fs.readFile(file, 'utf-8'))
 
-          if (data.lang !== 'en')
-            return
+    // Drafts are unfinished: never mail them to subscribers.
+    if (data.draft)
+      return null
 
-          const html = markdown.render(content)
-            .replace('src="/', `src="${DOMAIN}/`)
+    const date = parseDate(data.date)
+    if (!date) {
+      console.warn(`[rss] skipping ${file}: missing or invalid \`date\``)
+      return null
+    }
 
-          if (data.image?.startsWith('/'))
-            data.image = DOMAIN + data.image
+    // Every relative src, not just the first — String.replace with a string
+    // pattern only replaces one occurrence, so later images stayed relative
+    // and broke in feed readers.
+    const html = markdown.render(content)
+      .replace(/src="\//g, `src="${site.url}/`)
+      .replace(/href="\//g, `href="${site.url}/`)
 
-          return {
-            ...data,
-            date: new Date(data.date),
-            content: html,
-            author: [AUTHOR],
-            link: DOMAIN + i.replace(/^pages(.+)\.md$/, '$1'),
-          }
-        }),
-    ))
+    const image = data.image?.startsWith('/') ? site.url + data.image : data.image
+
+    return {
+      ...data,
+      image,
+      date,
+      lang: resolveLocale(data.lang),
+      content: html,
+      author: [AUTHOR],
+      link: canonicalUrl(file.replace(/^pages(.+)\.md$/, '$1')),
+    }
+  }))
+
+  return posts
     .filter(Boolean)
-
-  posts.sort((a, b) => +new Date(b.date) - +new Date(a.date))
-
-  await writeFeed('feed', options, posts)
+    .sort((a, b) => +b.date - +a.date)
 }
 
-async function writeFeed(name, options, items) {
-  options.author = AUTHOR
-  options.image = 'https://venkivijay.com/logo.png'
-  options.favicon = 'https://venkivijay.com/logo.png'
+async function buildBlogRSS() {
+  const posts = await readPosts()
 
-  const feed = new Feed(options)
+  // The default feed carries every language so nothing is ever silently
+  // missing from it; per-language feeds exist for readers who want just one.
+  await writeFeed('feed', posts, DEFAULT_LOCALE)
+
+  for (const lang of Object.keys(LOCALES)) {
+    const localePosts = posts.filter(post => post.lang === lang)
+    if (localePosts.length)
+      await writeFeed(`feed.${lang}`, localePosts, lang)
+  }
+
+  console.log(`[rss] ${posts.length} posts -> feed.xml${posts.length ? ` (${[...new Set(posts.map(p => p.lang))].join(', ')})` : ''}`)
+}
+
+async function writeFeed(name, items, lang) {
+  const suffix = name === 'feed' ? '' : ` (${LOCALES[lang].label})`
+
+  const feed = new Feed({
+    title: `${site.name}${suffix}`,
+    description: `${site.name}'s Blog${suffix}`,
+    id: `${site.url}/`,
+    link: `${site.url}/`,
+    language: lang,
+    copyright: `CC BY-NC-SA 4.0 2021-${new Date().getFullYear()} © ${site.name}`,
+    feedLinks: {
+      json: `${site.url}/${name}.json`,
+      atom: `${site.url}/${name}.atom`,
+      rss: `${site.url}/${name}.xml`,
+    },
+    author: AUTHOR,
+    image: `${site.url}/logo.png`,
+    favicon: `${site.url}/logo.png`,
+  })
 
   items.forEach(item => feed.addItem(item))
-  // items.forEach(i=> console.log(i.title, i.date))
 
   await fs.ensureDir(dirname(`./dist/${name}`))
   await fs.writeFile(`./dist/${name}.xml`, feed.rss2(), 'utf-8')

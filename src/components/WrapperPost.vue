@@ -126,10 +126,14 @@ onMounted(() => {
     </template>
     <br>
     <span font-mono op50>> </span>
+    <!-- Slot content, not v-text: on a component v-text becomes a fallthrough
+         attribute that SSR drops, so every prerendered page shipped an empty
+         anchor and crawlers saw a link with no text. -->
     <RouterLink
       :to="route.path.split('/').slice(0, -1).join('/') || '/'"
       class="font-mono op50 hover:op75"
-      v-text="'cd ..'"
-    />
+    >
+      cd ..
+    </RouterLink>
   </div>
 </template>
