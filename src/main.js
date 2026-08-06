@@ -46,4 +46,12 @@ export const createApp = ViteSSG(
       })
     }
   },
+  {
+    // vite-ssg defaults to createApp() on the client, which throws away the
+    // prerendered DOM and re-renders from scratch instead of hydrating it.
+    // Every element is therefore recreated once the JS arrives, which restarts
+    // the entrance animation: on a slow load the page finished fading in and
+    // then replayed the whole thing. createSSRApp() reuses the markup.
+    hydration: true,
+  },
 )

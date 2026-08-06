@@ -2,7 +2,18 @@ import { useDark } from '@vueuse/core'
 import dayjs from 'dayjs'
 import { nextTick } from 'vue'
 
-export const isDark = useDark()
+export const isDark = useDark({
+  // VueUse injects a global `*{transition:none!important}` stylesheet every
+  // time it applies the colour mode, including once during hydration.
+  // Inserting a stylesheet makes the engine re-resolve @keyframes, and a CSS
+  // animation is bound to the keyframes rule object it started against — so
+  // every running animation restarts. On a slow load the entrance animation
+  // finished and then replayed from the top once the JS arrived.
+  //
+  // Nothing here needs the suppression: theme changes go through the View
+  // Transitions API in toggleDark, which snapshots the old frame anyway.
+  disableTransition: false,
+})
 
 /**
  * Credit to [@hooray](https://github.com/hooray)
