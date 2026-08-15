@@ -15,7 +15,8 @@
   "bugs": "https://github.com/venkivijay/portfolio/issues",
   "scripts": {
     "dev": "vite --port 3000 --host",
-    "build": "vite-ssg build && node ./scripts/copy-fonts.js && node ./scripts/rss.js",
+    "build": "node ./scripts/validate-posts.js && vite-ssg build && node ./scripts/copy-fonts.js && node ./scripts/rss.js && node ./scripts/sitemap.js",
+    "validate": "node ./scripts/validate-posts.js",
     "preview": "vite preview",
     "lint": "eslint",
     "lint:fix": "eslint --fix"
@@ -43,9 +44,11 @@
     "@unocss/reset": "^66.2.0",
     "@unocss/vite": "^66.2.0",
     "@vitejs/plugin-vue": "^5.2.4",
+    "beasties": "^0.2.0",
     "diacritics": "^1.3.0",
     "eslint": "^9.28.0",
     "eslint-plugin-format": "^1.0.1",
+    "fast-glob": "^3.3.3",
     "feed": "^5.1.0",
     "fs-extra": "^11.3.0",
     "gray-matter": "^4.0.3",

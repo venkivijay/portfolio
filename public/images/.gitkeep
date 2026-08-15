@@ -1,0 +1,2 @@
+Post images live here. A markdown reference like ![alt](/images/diagram.png)
+resolves to public/images/diagram.png at build time.

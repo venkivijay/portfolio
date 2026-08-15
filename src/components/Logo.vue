@@ -1,5 +1,9 @@
 <template>
-  <svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Intrinsic width/height so the mark stays 48px if the stylesheet has not
+       applied yet. With only a viewBox it sized itself to the viewport, which
+       is why any flash of unstyled content showed a full-screen logo. CSS
+       below still lets the parent drive the real size. -->
+  <svg width="48" height="48" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
     <title>Venki @ venkivijay.com</title>
     <g>
       <path
@@ -12,6 +16,10 @@
 </template>
 
 <style scoped>
+svg {
+  width: 100%;
+  height: 100%;
+}
 @media (prefers-reduced-motion) {
   .path1 {
     animation: none !important;

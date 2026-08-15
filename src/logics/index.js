@@ -42,6 +42,11 @@ export function toggleDark(event) {
         {
           duration: 400,
           easing: 'ease-out',
+          // Without this the clip-path snaps back to unclipped the moment the
+          // animation ends, a frame or two before the view transition tears
+          // the snapshot down. Going light -> dark that repaints the whole old
+          // light layer at full size: a white flash at the end of the sweep.
+          fill: 'forwards',
           pseudoElement: isDark.value
             ? '::view-transition-old(root)'
             : '::view-transition-new(root)',
@@ -51,7 +56,11 @@ export function toggleDark(event) {
 }
 
 export function formatDate(d, onlyDate = true) {
-  const date = dayjs(d)
+  // Frontmatter dates parse as UTC midnight. Formatting them in the viewer's
+  // local zone shows the previous day for anyone west of UTC, contradicting
+  // datePublished, the feed pubDate and the sitemap lastmod, which are all UTC.
+  const utc = new Date(d)
+  const date = dayjs(new Date(utc.getTime() + utc.getTimezoneOffset() * 60000))
   if (onlyDate || date.year() === dayjs().year())
     return date.format('MMM D')
   return date.format('MMM D, YYYY')

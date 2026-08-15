@@ -1,4 +1,27 @@
+# Every route is prerendered to a static file, so no SPA rewrite is needed.
+# This rule only fires when nothing matched, and returns a real 404 status —
+# rewriting unknown paths to index.html with a 200 made every junk URL look
+# like a duplicate of the homepage to search engines.
 [[redirects]]
 from = "/*"
-to = "/index.html"
-status = 200
+to = "/404.html"
+status = 404
+
+# Netlify's default for static files is `public, max-age=0, must-revalidate`,
+# which was being applied to the content-hashed bundles too. The filename
+# already contains a hash of the contents, so the file can never change
+# meaning — but the default made the browser send a conditional request for
+# the stylesheet on every single page load and wait for the 304 before it
+# could paint anything. Mark them immutable so a repeat visit paints from
+# cache with no network round trip.
+[[headers]]
+for = "/assets/*"
+
+[headers.values]
+cache-control = "public, max-age=31536000, immutable"
+
+[[headers]]
+for = "/assets/fonts/*"
+
+[headers.values]
+cache-control = "public, max-age=31536000, immutable"

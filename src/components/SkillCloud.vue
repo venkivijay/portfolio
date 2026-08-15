@@ -129,9 +129,25 @@ watch(isDark, () => {
 </script>
 
 <template>
-  <div
-    ref="container" class="relative overflow-hidden aspect-square w-4/5 max-w-144 mx-auto"
-    @pointerdown="handleInteraction"
-    @pointerup="handleInteraction"
-  />
+  <div>
+    <div
+      ref="container" class="relative overflow-hidden aspect-square w-4/5 max-w-144 mx-auto"
+      aria-hidden="true"
+      @pointerdown="handleInteraction"
+      @pointerup="handleInteraction"
+    />
+    <!--
+      The cloud builds its labels imperatively at runtime, so the skills never
+      reach the server-rendered HTML. This is the text alternative: same list,
+      available to screen readers, crawlers and LLMs without JavaScript.
+    -->
+    <div class="sr-only">
+      <h2>Skills and technologies</h2>
+      <ul>
+        <li v-for="skill in skills" :key="skill.name">
+          {{ skill.name }}
+        </li>
+      </ul>
+    </div>
+  </div>
 </template>

@@ -30,15 +30,16 @@ export default defineConfig({
       // logs: true,
       extendRoute(route) {
         const path = route.components.get('default')
-        if (!path)
+        if (!path || !path.endsWith('.md'))
           return
 
-        if (!path.includes('projects.md') && path.endsWith('.md')) {
-          const { data } = matter(fs.readFileSync(path, 'utf-8'))
-          route.addToMeta({
-            frontmatter: data,
-          })
-        }
+        const { data } = matter(fs.readFileSync(path, 'utf-8'))
+        // `projects` is a large content blob the page renders from its own
+        // frontmatter, so it is stripped rather than shipped in route meta —
+        // but the page still needs its title/description there for the
+        // canonical, robots and JSON-LD tags built in App.vue.
+        const { projects: _projects, ...frontmatter } = data
+        route.addToMeta({ frontmatter })
       },
     }),
     Vue({
@@ -79,7 +80,10 @@ export default defineConfig({
           slugify,
           permalink: anchor.permalink.linkInsideHeader({
             symbol: '#',
-            renderAttrs: () => ({ 'aria-hidden': 'true' }),
+            // aria-hidden on a focusable element is a WCAG violation: keyboard
+            // users land on an anchor that screen readers have been told to
+            // ignore. Take it out of the tab order instead.
+            renderAttrs: () => ({ 'aria-hidden': 'true', 'tabindex': '-1' }),
           }),
         })
 
@@ -98,9 +102,12 @@ export default defineConfig({
         })
 
         md.use(MarkdownItMagicLink, {
+          // imageUrl is always set explicitly: without it the plugin falls back
+          // to favicon.yandex.net, which leaks visitors to a third party and
+          // blocks the load event on the pages these links appear on.
           linksMap: {
-            'Protium': 'https://protium.co.in',
-            'Social Links': { link: 'https://links.venkivijay.com', imageUrl: 'https://links.venkivijay.com/favicon.ico' },
+            'Protium': { link: 'https://protium.co.in', imageUrl: '/icons/protium.jpg' },
+            'Social Links': { link: 'https://links.venkivijay.com', imageUrl: '/icons/links.ico' },
           },
           imageOverrides: [],
         })
@@ -133,6 +140,14 @@ export default defineConfig({
       { find: '~/', replacement: `${resolve(__dirname, 'src')}/` },
     ],
   },
+  build: {
+    // Keep component styles in the single stylesheet that gets inlined above.
+    // Split per-route CSS is fetched by the chunk loader after hydration, so
+    // it lands after first paint — and a late hiding rule is a visible bug:
+    // ListPosts' scoped rule suppresses the prose bullet on each post, so
+    // every entry in the list would show a bullet and then lose it.
+    cssCodeSplit: false,
+  },
   optimizeDeps: {
     include: [
       'vue',
@@ -146,5 +161,64 @@ export default defineConfig({
   },
   ssgOptions: {
     formatting: 'minify',
+    // Inline the whole stylesheet into every page rather than extracting a
+    // critical subset. Firefox paints unstyled content instead of staying
+    // blank when a render-blocking stylesheet is slow (its paint delay is 5ms),
+    // so the CSS has to be in the document at first paint.
+    //
+    // Extracting only the critical part does that too, but it decides what is
+    // critical by matching selectors against the prerendered HTML — which
+    // cannot see `.dark` (applied at runtime from localStorage), cannot see
+    // below the fold (`.sr-only`, where a dropped hiding rule means 43 skills
+    // render as body copy), and cannot parse `:has()`. Each omission needed a
+    // hand-written patch, and the duplicate `@keyframes` it left behind
+    // restarted the entrance animation when the external sheet arrived,
+    // because an animation's identity is tied to the keyframes rule object.
+    //
+    // Inlining everything removes the second stylesheet entirely, so there is
+    // no partial cascade to get wrong. It is also smaller: the critical build
+    // shipped those rules twice, in two requests.
+    //
+    // `Infinity` rather than a byte count on purpose — a number would silently
+    // fall back to critical-CSS mode, and all of the above would return, the
+    // first time the stylesheet grew past it.
+    beastiesOptions: {
+      inlineThreshold: Number.POSITIVE_INFINITY,
+    },
+    // Drop parameterised routes (they have no concrete URL to prerender) and
+    // emit the catch-all as dist/404.html so Netlify can serve a real 404
+    // instead of rewriting unknown paths to the homepage with a 200.
+    includedRoutes(paths, routes) {
+      const dynamic = paths.filter(path => /[:*]/.test(path) && path !== '/:404(.*)')
+      if (dynamic.length) {
+        // There is no SPA fallback any more, so an unrendered route is a hard
+        // 404 in production. Say so rather than dropping it silently.
+        console.warn(
+          `\n[ssg] ${dynamic.length} dynamic route(s) cannot be prerendered and will 404 in production:\n`
+          + dynamic.map(path => `  - ${path}`).join('\n')
+          + '\n  Enumerate their concrete paths in ssgOptions.includedRoutes.\n',
+        )
+      }
+
+      // A directory under pages/ (say posts/2026/) becomes a route record with
+      // no component. Rendering it falls through to the catch-all and writes a
+      // "page not found" body to a file the server then returns with a 200 —
+      // a soft 404. Only render paths that resolve to an actual component.
+      const renderable = new Set()
+      const walk = (records, prefix) => {
+        for (const record of records) {
+          const path = record.path === ''
+            ? (prefix || '/')
+            : (record.path.startsWith('/') ? record.path : `${prefix}/${record.path}`)
+          if (record.component)
+            renderable.add(path)
+          if (record.children?.length)
+            walk(record.children, path === '/' ? '' : path)
+        }
+      }
+      walk(routes, '')
+
+      return [...paths.filter(path => !/[:*]/.test(path) && renderable.has(path)), '/404']
+    },
   },
 })

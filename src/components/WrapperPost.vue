@@ -12,6 +12,23 @@ const router = useRouter()
 const route = useRoute()
 const content = ref()
 
+/**
+ * Nearest ancestor that is a real page. A directory under pages/ (posts/2026/)
+ * exists only as a componentless route record: it is deliberately not
+ * prerendered, so linking straight to the parent segment is a hard 404.
+ */
+const parentPath = computed(() => {
+  const segments = route.path.split('/').filter(Boolean)
+  while (segments.length) {
+    segments.pop()
+    const candidate = `/${segments.join('/')}`
+    const matched = router.resolve(candidate).matched
+    if (matched.length && !matched.some(record => record.path.includes(':404')))
+      return candidate
+  }
+  return '/'
+})
+
 const base = 'https://venkivijay.com'
 const xUrl = computed(() => `https://x.com/intent/tweet?text=${encodeURIComponent(`Reading @venkivijay_\'s ${base}${route.path}\n\nI think...`)}`)
 onMounted(() => {
@@ -126,10 +143,14 @@ onMounted(() => {
     </template>
     <br>
     <span font-mono op50>> </span>
+    <!-- Slot content, not v-text: on a component v-text becomes a fallthrough
+         attribute that SSR drops, so every prerendered page shipped an empty
+         anchor and crawlers saw a link with no text. -->
     <RouterLink
-      :to="route.path.split('/').slice(0, -1).join('/') || '/'"
+      :to="parentPath"
       class="font-mono op50 hover:op75"
-      v-text="'cd ..'"
-    />
+    >
+      cd ..
+    </RouterLink>
   </div>
 </template>

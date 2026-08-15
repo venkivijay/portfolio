@@ -42,16 +42,18 @@ function getGroupName(p) {
 </script>
 
 <template>
-  <ul>
-    <template v-if="!posts.length">
-      <div py2 op50>
-        { nothing here yet }
-      </div>
-    </template>
+  <!-- Every direct child of this ul is an li: the anchors used to sit directly
+       inside the list with the li nested inside them, which is invalid markup
+       and gives screen readers a malformed list. -->
+  <ul class="post-list">
+    <li v-if="!posts.length" py2 op50>
+      { nothing here yet }
+    </li>
 
     <template v-for="route, idx in posts" :key="route.path">
-      <div
+      <li
         v-if="!isSameGroup(route, posts[idx - 1])"
+        aria-hidden="true"
         select-none relative h20 pointer-events-none slide-enter
         :style="{
           '--enter-stage': idx - 2,
@@ -59,8 +61,8 @@ function getGroupName(p) {
         }"
       >
         <span text-8em color-transparent absolute left--3rem top--2rem font-bold text-stroke-2 text-stroke-hex-aaa op10>{{ getGroupName(route) }}</span>
-      </div>
-      <div
+      </li>
+      <li
         class="slide-enter"
         :style="{
           '--enter-stage': idx,
@@ -80,7 +82,7 @@ function getGroupName(p) {
           "
           class="item block font-normal mb-6 mt-2 no-underline"
         >
-          <li class="no-underline" flex="~ col md:row gap-2 md:items-center">
+          <div class="no-underline" flex="~ col md:row gap-2 md:items-center">
             <div class="title text-lg leading-1.2em" flex="~ gap-2 wrap">
               <span
                 v-if="route.lang === 'ta'"
@@ -128,12 +130,23 @@ function getGroupName(p) {
                 class="text-xs bg-zinc:15 text-zinc5 rounded px-1 py-0.5 my-auto md:hidden"
               >தமிழ்</span>
             </div>
-          </li>
+          </div>
           <div v-if="route.place" op50 text-sm hidden mt--2 md:block>
             {{ route.place }}
           </div>
         </component>
-      </div>
+      </li>
     </template>
   </ul>
 </template>
+
+<style scoped>
+/* .prose ul > li draws a bullet via ::before; these list items are cards. */
+.post-list > li {
+  padding-left: 0;
+}
+
+.post-list > li::before {
+  display: none;
+}
+</style>
