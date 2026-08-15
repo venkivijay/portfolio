@@ -31,7 +31,11 @@ html:not(.dark) .shiki span {
   margin: 0;
 }
 
-.twoslash-query-presisted .twoslash-popup-info {
+/* Shiki shipped this class misspelled as `presisted` and corrected it in
+   3.23.0. Both spellings are matched so the offset survives the rename in
+   either direction — the popup silently sits 1.6em too high without it. */
+.twoslash-query-presisted .twoslash-popup-info,
+.twoslash-query-persisted .twoslash-popup-info {
   transform: translate(0, 1.6em);
 }
 
